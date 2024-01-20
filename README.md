@@ -6,4 +6,4 @@ Group Members (QuestID, github user):
 * Mannan Arora (m43arora, mannan-arora)
 * Viktoria Never (vnever, vnever)
 
-[Descriptive Title for our project]
+Wat2Eat: The Assistive Cooking App to help you decide what to make with what you have in your fridge.
