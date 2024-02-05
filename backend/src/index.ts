@@ -1,15 +1,22 @@
+import dotenv from "dotenv";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import http from "http";
+
+import router from "./router";
+
+dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.status(200).send("Hello World!");
+const httpServer = http.createServer(app);
+const PORT = process.env.PORT || 3000;
+
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
-});
+app.use("/", router());
