@@ -61,8 +61,7 @@ A recipe entry from **Set 2** looks like this:
   "steps": ["Preheat oven to 375°F.", "Spread cherry pie filling in a 8 x 8-inch square pan that hasbeen sprayed.", "In a medium-size bowl, beat eggs.", "Add milk, melted margarine, cinnamon, and nutmeg; mix well.", "Pour over cherry pie filling.", "In another medium size bowl, combine sugar and flour.", "Add margarine; with fork stir until crumbly.", "Add nuts and oats.", "Sprinkle over cobbler mixture.", "Bake 50 to 55 minutes or until set.", "Cool.", "Serve warm with ice cream or whipped topping.", "Refrigerate leftovers."],
   "servings": 6,
   "serving_size": "1 (347 g)",
-  "tags": ["60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine", "preparation", "north-american", "cobblers-and-crisps", "desserts", "fruit", "oven", "pitted-fruit", "cherries", "equipment"
-  ]
+  "tags": ["60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine", "preparation", "north-american", "cobblers-and-crisps", "desserts", "fruit", "oven", "pitted-fruit", "cherries", "equipment"]
 }
 ```
 
