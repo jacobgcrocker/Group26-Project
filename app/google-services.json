@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "883822347782",
+    "project_id": "wat2eat-99bad",
+    "storage_bucket": "wat2eat-99bad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883822347782:android:7d53eefb5b844b213c2587",
+        "android_client_info": {
+          "package_name": "com.example.wat2eat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnYUjGO2JxFVbxJ4PfqqnhO_Fvkj35eFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
