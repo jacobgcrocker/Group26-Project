@@ -3,4 +3,12 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <!-- User Authentication -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="login_incorrect_credentials">Incorrect email or password.</string>
+    <string name="login_failed">"Login failed, unexpected error occurred.</string>
 </resources>
