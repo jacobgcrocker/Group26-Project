@@ -23,14 +23,14 @@ class UserRepository(val dataSource: AuthDataSource) {
         return result
     }
 
-    fun isLoggedIn(): Boolean {
-        return user != null
-    }
+//    fun isLoggedIn(): Boolean {
+//        return user != null
+//    }
 
-    fun logout() {
-        user = null
-        dataSource.logout()
-    }
+//    fun logout() {
+//        user = null
+//        dataSource.logout()
+//    }
 
     private fun setLoggedInUser(user: User) {
         this.user = user

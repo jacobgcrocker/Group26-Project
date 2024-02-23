@@ -82,19 +82,12 @@ class LoginFragment : Fragment() {
     private fun handleInputEvents() {
         inputEmail.afterTextChanged {
             loginViewModel.loginDataChanged(
-                inputEmail.text.toString(),
-                inputPassword.text.toString()
+                inputEmail.text.toString()
             )
         }
 
+        // allow pressing enter on keyboard to submit form
         inputPassword.apply {
-            afterTextChanged {
-                loginViewModel.loginDataChanged(
-                    inputEmail.text.toString(),
-                    inputPassword.text.toString()
-                )
-            }
-
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->

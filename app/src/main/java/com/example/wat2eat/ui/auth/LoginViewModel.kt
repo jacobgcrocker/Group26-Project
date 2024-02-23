@@ -47,7 +47,7 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     /**
      * sign in form validation for login fragment
      */
-    fun loginDataChanged(username: String, password: String) {
+    fun loginDataChanged(username: String) {
         if (!isUserNameValid(username)) {
             _loginForm.value = LoginFormState(usernameError = R.string.invalid_email)
         } else {

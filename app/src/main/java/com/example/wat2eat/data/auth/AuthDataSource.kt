@@ -51,9 +51,9 @@ class AuthDataSource {
         }
     }
 
-    fun logout() {
-        auth.signOut()
-    }
+//    fun logout() {
+//        auth.signOut()
+//    }
 
     private fun retrieveUser(firebaseUser: FirebaseUser): User {
         // TODO: change this to incorporate logic to retrieve User from database, this logic ideally shouldn't be in this class
