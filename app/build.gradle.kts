@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -16,6 +18,15 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = Properties().apply {
+            rootProject.file("local.properties").inputStream().use { load(it) }
+        }
+        val APP_ID = localProperties.getProperty("APP_ID")
+        val APP_KEY = localProperties.getProperty("APP_KEY")
+
+        buildConfigField("String", "APP_ID", "\"${APP_ID}\"")
+        buildConfigField ("String", "APP_KEY", "\"${APP_KEY}\"")
     }
 
     buildTypes {
@@ -32,6 +43,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }
@@ -57,4 +69,9 @@ dependencies {
     // Material UI
     implementation("com.google.android.material:material:1.11.0")
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation ("com.google.code.gson:gson:2.10")
 }
