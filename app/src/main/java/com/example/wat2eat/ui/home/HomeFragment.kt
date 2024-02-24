@@ -9,6 +9,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wat2eat.api.RecipeResponse
 import com.example.wat2eat.api.RetrofitClient
 import com.example.wat2eat.databinding.FragmentHomeBinding
@@ -20,6 +21,9 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var categoryAdapter: CategoryAdapter
+    private lateinit var dummyRecipes : RecipeAdapter
+
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -45,6 +49,20 @@ class HomeFragment : Fragment() {
                 return true
             }
         })
+
+        categoryAdapter = CategoryAdapter()
+        binding.rvMainCategory.apply {
+            adapter = categoryAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
+        categoryAdapter.submitList(homeViewModel.getMainCategories())
+
+        dummyRecipes = RecipeAdapter()
+        binding.rvSubCategory.apply {
+            adapter = dummyRecipes
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+        dummyRecipes.submitList(homeViewModel.getDummyRecipes())
 
         return root
     }
