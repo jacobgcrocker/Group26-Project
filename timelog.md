@@ -1,3 +1,5 @@
-| Date | Tsz | Mannan | Jacob | Tam | Thanh | Viktoria | Task |
-|------|------|-------|-------|-----|-------|----------|------|
-|23/02/2024|4|  |  |  |  |  | Implemented login feature with Firebase Auth|
+| Date       | Tsz | Mannan | Jacob | Tam | Thanh | Viktoria | Task                                         |
+| ---------- | --- | ------ | ----- | --- | ----- | -------- | -------------------------------------------- |
+| 03/02/2024 |     |        |       | 1   |       |          | Initial setup Express backend                |
+| 11/02/2024 |     |        |       | 3   |       |          | Researched recipe datasets                   |
+| 23/02/2024 | 4   |        |       |     |       |          | Implemented login feature with Firebase Auth |
