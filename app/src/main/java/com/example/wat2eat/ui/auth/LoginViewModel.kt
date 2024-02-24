@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import com.example.wat2eat.R
-import com.example.wat2eat.data.auth.LoginResult
+import com.example.wat2eat.data.auth.AuthResult
 import com.example.wat2eat.models.Result
 import com.example.wat2eat.data.auth.UserRepository
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    private val _loginForm = MutableLiveData<LoginFormState>()
-    val loginFormState: LiveData<LoginFormState> = _loginForm
+    private val _loginForm = MutableLiveData<AuthFormState>()
+    val loginFormState: LiveData<AuthFormState> = _loginForm
 
-    private val _loginResult = MutableLiveData<LoginResult>()
-    val loginResult: LiveData<LoginResult> = _loginResult
+    private val _loginResult = MutableLiveData<AuthResult>()
+    val loginResult: LiveData<AuthResult> = _loginResult
 
     /**
      * attempts to login user with provided [email] and [password], updates [loginResult] to notify
@@ -31,14 +31,14 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
 
             if (result is Result.Success) {
                 _loginResult.value =
-                    LoginResult(success = result.data)
+                    AuthResult(success = result.data)
             } else if (result is Result.Error) {
                 // then an error occurred
                 when (result.exception) {
                     is FirebaseAuthInvalidCredentialsException -> {
-                        _loginResult.value = LoginResult(error = R.string.login_incorrect_credentials)
+                        _loginResult.value = AuthResult(error = R.string.login_incorrect_credentials)
                     }
-                    else -> _loginResult.value = LoginResult(error = R.string.login_failed)
+                    else -> _loginResult.value = AuthResult(error = R.string.login_failed)
                 }
             }
         }
@@ -47,20 +47,11 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     /**
      * sign in form validation for login fragment
      */
-    fun loginDataChanged(username: String) {
-        if (!isUserNameValid(username)) {
-            _loginForm.value = LoginFormState(usernameError = R.string.invalid_email)
+    fun loginDataChanged(email: String) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            _loginForm.value = AuthFormState(emailError = R.string.invalid_email)
         } else {
-            _loginForm.value = LoginFormState(isDataValid = true)
-        }
-    }
-
-    // email checking
-    private fun isUserNameValid(username: String): Boolean {
-        return if (username.contains('@')) {
-            Patterns.EMAIL_ADDRESS.matcher(username).matches()
-        } else {
-            username.isNotBlank()
+            _loginForm.value = AuthFormState(isDataValid = true)
         }
     }
 }

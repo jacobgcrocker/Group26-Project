@@ -24,11 +24,11 @@ class AuthDataSource {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     /**
-     * attempts to sign in user with provided [email] and [password], returns Result with either
+     * attempts to login user with provided [email] and [password], returns Result with either
      * User object or Exception.
      */
     suspend fun login(email: String, password: String): Result<User> {
-        // sign in with email
+        // log in with email
         try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
             return when (result) {
@@ -38,7 +38,7 @@ class AuthDataSource {
                     if (user != null) {
                         Result.Success(user)
                     } else {
-                        Result.Error(IllegalStateException("Sign in successful but user not found"))
+                        Result.Error(IllegalStateException("Log in successful but user not found"))
                     }
                 }
                 is Result.Error -> {
@@ -51,15 +51,53 @@ class AuthDataSource {
         }
     }
 
+    /**
+     * attempts to sign up user with provided [email] and [password] with Firebase Auth. If
+     * successful, append new User object to database with [username], returns Result with either
+     * User object or Exception.
+     */
+    suspend fun signUp(username: String, email: String, password: String): Result<User> {
+        // sign up with email
+        try {
+            val result = auth.createUserWithEmailAndPassword(email, password).await()
+            return when (result) {
+                is Result.Success -> {
+                    Log.d(TAG, "Firebase Auth user sign up successful")
+                    val user = auth.currentUser?.let { appendUser(it, username) }
+                    if (user != null) {
+                        Result.Success(user)
+                    } else {
+                        Result.Error(IllegalStateException("Sign up successful but user not found"))
+                    }
+                }
+                is Result.Error -> {
+                    Result.Error(result.exception)
+                }
+            }
+        } catch (e: Exception) {
+            Log.d(TAG, "Error occurred when calling createUserWithEmailAndPassword", e)
+            return Result.Error(e)
+        }
+    }
+
 //    fun logout() {
 //        auth.signOut()
 //    }
 
     private fun retrieveUser(firebaseUser: FirebaseUser): User {
-        // TODO: change this to incorporate logic to retrieve User from database, this logic ideally shouldn't be in this class
+        // TODO: change this to incorporate logic to retrieve User from database using user's UID,
+        //    this logic ideally shouldn't be in this class
         val email: String = firebaseUser.email.orEmpty()
         val displayName = firebaseUser.displayName.orEmpty()
         return User(userId = firebaseUser.uid, username = displayName, email = email)
+    }
+
+
+    private fun appendUser(firebaseUser: FirebaseUser, username: String): User {
+        // TODO: change this to incorporate logic to append User to database, this logic ideally
+        //     shouldn't be in this class
+        val email: String = firebaseUser.email.orEmpty()
+        return User(userId = firebaseUser.uid, username = username, email = email)
     }
 
     // referenced https://stackoverflow.com/q/67473666

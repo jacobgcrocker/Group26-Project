@@ -44,6 +44,8 @@ class LoginFragment : Fragment() {
         buttonLogin = binding.buttonLogin
         loading = binding.loading
 
+        binding.inputEmailLayout.errorIconDrawable = null
+
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
 
         setupObservers()
@@ -59,9 +61,8 @@ class LoginFragment : Fragment() {
             val loginState = it ?: return@Observer
             buttonLogin.isEnabled = loginState.isDataValid
 
-            if (loginState.usernameError != null) {
-                inputEmail.error = getString(loginState.usernameError)
-            }
+            binding.inputEmailLayout.error =
+                if (loginState.emailError != null) getString(loginState.emailError) else null
         })
 
         // update UI when login returns result
@@ -87,8 +88,7 @@ class LoginFragment : Fragment() {
         }
 
         // allow pressing enter on keyboard to submit form
-        inputPassword.apply {
-            setOnEditorActionListener { _, actionId, _ ->
+        inputPassword.setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
@@ -99,14 +99,13 @@ class LoginFragment : Fragment() {
                 false
             }
 
-            buttonLogin.setOnClickListener {
-                // disable UI, https://stackoverflow.com/a/45613741
-                activity?.window?.setFlags(
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                loading.visibility = View.VISIBLE
-                loginViewModel.login(inputEmail.text.toString(), inputPassword.text.toString())
-            }
+        buttonLogin.setOnClickListener {
+            // disable touch events, referenced https://stackoverflow.com/a/45613741
+            activity?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            loading.visibility = View.VISIBLE
+            loginViewModel.login(inputEmail.text.toString(), inputPassword.text.toString())
         }
     }
 }

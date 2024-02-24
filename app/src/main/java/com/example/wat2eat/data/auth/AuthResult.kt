@@ -6,7 +6,7 @@ import com.example.wat2eat.models.User
 /**
  * Authentication result : success (user details) or error message.
  */
-data class LoginResult(
+data class AuthResult(
     val success: User? = null,
     @StringRes
     val error: Int? = null
