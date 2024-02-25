@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import android.icu.util.Calendar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +35,8 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        binding.greeting.text = getGreetingText()
 
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -66,6 +69,19 @@ class HomeFragment : Fragment() {
 
         return root
     }
+
+    private fun getGreetingText(): String {
+        val baseGreeting = "Not sure what to cook "
+        val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        return when (currentHour) {
+            in 5..10 -> baseGreeting + "this morning?"
+            in 11..13 -> baseGreeting + "for lunch?"
+            in 14..17 -> baseGreeting + "this afternoon?"
+            in 18..23 -> baseGreeting + "tonight?"
+            else -> baseGreeting + "for a late night snack?"
+        }
+    }
+
     private fun searchRecipes(query: String) {
         val call = RetrofitClient.instance.searchRecipes(q = query)
         call.enqueue(object: Callback<RecipeResponse> {
