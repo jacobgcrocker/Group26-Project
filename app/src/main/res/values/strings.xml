@@ -2,7 +2,7 @@
     <string name="app_name">Wat2eat</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_account">Account</string>
 
     <!-- User Authentication -->
     <string name="prompt_username">Username</string>
