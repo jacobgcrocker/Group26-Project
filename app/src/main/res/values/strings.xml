@@ -25,4 +25,7 @@
     <string name="recipe_title">Recipe name</string>
     <string name="go_back">Go back</string>
     <string name="save_recipe">Save recipe</string>
+    <string name="cooking_time">Cooking time</string>
+    <string name="servings">Servings</string>
+    <string name="calories">Calories</string>
 </resources>
