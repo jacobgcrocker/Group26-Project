@@ -10,4 +10,6 @@
 | 24/02/2024 |     | 2      |       |     |       |          | Updated home page layout, added sample/demo data         |
 | 25/02/2024 |     |        |       | 2   |       |          | Initial account tab                                      |
 | 25/02/2024 |     |        |       |     |       | 3        | Inital review view set up                                |
+| 25/02/2024 |     |        |       |     |3      |          | Implemented recipe page layout                           |
 | 27/02/2024 |     |        |       | 3   |       |          | Created MongoDB deployment + CRUD endpoints for userdata |
+| 27/02/2024 |     |        |       |     |1      |          | Fixed error where toolbar didn't collapse and cleaned up |
