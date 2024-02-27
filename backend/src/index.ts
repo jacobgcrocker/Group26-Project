@@ -3,8 +3,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import http from "http";
-
 import router from "./router";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -18,5 +18,10 @@ const PORT = process.env.PORT || 3000;
 httpServer.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+mongoose.set("strictQuery", true);
+mongoose.Promise = Promise;
+mongoose.connect(process.env.MONGODB_URL as string);
+mongoose.connection.on("error", (err: Error) => console.log(err));
 
 app.use("/", router());
