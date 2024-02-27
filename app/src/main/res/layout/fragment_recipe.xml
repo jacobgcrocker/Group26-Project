@@ -23,7 +23,6 @@
             app:contentScrim="@color/purple_500"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
-
             <ImageView
                 android:id="@+id/recipe_imageView"
                 android:layout_width="match_parent"
@@ -181,6 +180,7 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical">
 
+                    <!-- TODO: replace these with RecyclerView -->
                     <CheckBox
                         android:id="@+id/checkbox_meat"
                         android:layout_width="wrap_content"
