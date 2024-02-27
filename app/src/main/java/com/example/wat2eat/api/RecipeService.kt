@@ -1,19 +1,23 @@
 package com.example.wat2eat.api
 
 import com.example.wat2eat.BuildConfig
+import com.example.wat2eat.models.Recipe
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 
 interface RecipeService {
-    @GET("api/recipes/v2")
+    @GET("recipes/complexSearch")
     fun searchRecipes(
-        @Query("type")
-        type:String = "public",
-        @Query("q") q: String,
-        @Query("app_id") app_id:String = BuildConfig.APP_ID,
-        @Query("app_key") app_key:String = BuildConfig.APP_KEY,
+        @Query("query") q: String,
+        @Query("apiKey") apiKey:String = BuildConfig.API_KEY,
+        @Query("number") number: Int = 10,
+        @Query("instructionsRequired") instr: Boolean = true
 
         ): Call<RecipeResponse>
+    fun getRecipeInformation(
+        @Query("id") id: Int,
+        @Query("apiKey") apiKey:String = BuildConfig.API_KEY
+    ): Call<Recipe>
 }

@@ -22,11 +22,9 @@ android {
         val localProperties = Properties().apply {
             rootProject.file("local.properties").inputStream().use { load(it) }
         }
-        val APP_ID = localProperties.getProperty("APP_ID")
-        val APP_KEY = localProperties.getProperty("APP_KEY")
+        val API_KEY = localProperties.getProperty("API_KEY")
 
-        buildConfigField("String", "APP_ID", "\"${APP_ID}\"")
-        buildConfigField ("String", "APP_KEY", "\"${APP_KEY}\"")
+        buildConfigField ("String", "API_KEY", "\"${API_KEY}\"")
     }
 
     buildTypes {
