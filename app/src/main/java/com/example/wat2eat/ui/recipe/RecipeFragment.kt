@@ -7,29 +7,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.wat2eat.R
+import com.example.wat2eat.databinding.FragmentRecipeBinding
 
 class RecipeFragment : Fragment() {
+    private var _binding: FragmentRecipeBinding? = null
+    private val binding get() = _binding!!
 
-    companion object {
-        fun newInstance() = RecipeFragment()
-    }
-
-    private lateinit var viewModel: RecipeViewModel
+    private lateinit var recipeViewModel: RecipeViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_recipe, container, false)
+    ): View {
+        _binding = FragmentRecipeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        // TODO: Send recipe id to view model or something
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
     }
 }
