@@ -29,4 +29,7 @@ class RecipeFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
 }
