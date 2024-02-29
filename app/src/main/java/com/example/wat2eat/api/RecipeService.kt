@@ -1,9 +1,11 @@
 package com.example.wat2eat.api
 
 import com.example.wat2eat.BuildConfig
+import com.example.wat2eat.models.DetailedRecipe
 import com.example.wat2eat.models.Recipe
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -16,8 +18,10 @@ interface RecipeService {
         @Query("instructionsRequired") instr: Boolean = true
 
         ): Call<RecipeResponse>
+
+    @GET("recipes/{id}/information")
     fun getRecipeInformation(
-        @Query("id") id: Int,
-        @Query("apiKey") apiKey:String = BuildConfig.API_KEY
-    ): Call<Recipe>
+        @Path("id") id: Int,
+        @Query("apiKey") apiKey: String = BuildConfig.API_KEY
+    ): Call<DetailedRecipe>
 }
