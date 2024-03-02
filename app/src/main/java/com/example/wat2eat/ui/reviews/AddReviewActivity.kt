@@ -2,12 +2,16 @@ package com.example.wat2eat.ui.reviews
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.wat2eat.models.Review
 import com.example.wat2eat.databinding.ActivityAddReviewBinding
+import java.io.File
+import java.io.FileOutputStream
 
 class AddReviewActivity : AppCompatActivity() {
 
@@ -15,9 +19,21 @@ class AddReviewActivity : AppCompatActivity() {
     //db
     //storage
     //
-    private val image: String? = null
+    private var image: String? = null
     private var userId: String? = null
     private var username: String? = null
+    private val reviewList = mutableListOf<Review>()
+
+    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val data: Intent? = result.data
+            data?.data?.let { uri ->
+                // Handle the selected image URI
+                image = uri.toString()
+                saveImageLocally(uri)
+            }
+        }
+    }
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +51,16 @@ class AddReviewActivity : AppCompatActivity() {
     }
 
     fun addImage(v: View) {
-
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        val chooserIntent = Intent.createChooser(intent, "Select Image")
+        pickImageLauncher.launch(chooserIntent)
     }
 
     fun goBack(v: View) {
         finish()
     }
 
-    private val reviewList = mutableListOf<Review>()
     fun submitReview(v : View) {
         binding.addReviewProgressLayout.visibility = View.VISIBLE
         val description = binding.reviewDescription.text.toString()
@@ -55,6 +73,23 @@ class AddReviewActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Review submitted successfully!", Toast.LENGTH_SHORT).show()
         finish()
+    }
+
+    private fun saveImageLocally(imageUri: Uri?): String? {
+        if (imageUri == null) return null
+
+        val inputStream = contentResolver.openInputStream(imageUri)
+        val imageName = "image_${System.currentTimeMillis()}.jpg"
+        val file = File(cacheDir, imageName)
+        val outputStream = FileOutputStream(file)
+
+        inputStream?.use { input ->
+            outputStream.use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        return file.absolutePath
     }
     companion object {
         val PARAM_USER_ID = "UserId"
