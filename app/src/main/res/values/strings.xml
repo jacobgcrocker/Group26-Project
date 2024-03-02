@@ -18,4 +18,9 @@
     <string name="login_failed">"Login failed, unexpected error occurred.</string>
     <string name="sign_up_email_in_use">The email address is already in use.</string>
     <string name="sign_up_failed">"Sign up failed, unexpected error occurred.</string>
+    <string name="add_review">add_review</string>
+    <string name="summary">Summary</string>
+    <string name="reviews">Reviews</string>
+    <string name="image">image</string>
+    <string name="back_button">back button</string>
 </resources>
