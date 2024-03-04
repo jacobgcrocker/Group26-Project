@@ -15,5 +15,5 @@
 | 27/02/2024 |     |        |       |     |1      |          | Fixed error where toolbar didn't collapse and cleaned up   |
 | 27/02/2024 |     |        |       |     |1      |          | Added query for fetching specific recipe and fixed UI bugs |
 | 01/03/2024 |     |        |       |     |       |6         | Initial implementation of reviews |
-| 02/03/2024 |     |        |       |     |1      |6         | Added image functionality + changed layouts |
-| 03/03/2024 |     |        |       |     |1      |9         | Faced issues with initial implementation so completely altered review implementation|
+| 02/03/2024 |     |        |       |     |       |6         | Added image functionality + changed layouts |
+| 03/03/2024 |     |        |       |     |       |9         | Faced issues with initial implementation so completely altered review implementation|
