@@ -13,47 +13,62 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/reviews"
-            android:textSize="24sp"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/container"
-            android:layout_width="479dp"
-            android:layout_height="667dp"
-            android:layout_marginTop="48dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewList"
+            android:layout_width="381dp"
+            android:layout_height="463dp"
+            app:layoutManager="LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/addReviewButton"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.511"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.894" />
 
-        <TextView
-            android:id="@+id/summary"
-            android:layout_width="108dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/summary"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.048"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageView
             android:id="@+id/addReviewButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="28dp"
-            android:layout_marginBottom="24dp"
+            android:layout_width="79dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="32dp"
             android:clickable="true"
-            android:focusable="true"
             android:contentDescription="@string/add_review"
+            android:focusable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/_add_button"
-            android:background="@color/transparent_grey"/>
+            app:srcCompat="@drawable/_add_button" />
+
+
+        <ImageView
+            android:id="@+id/goBack"
+            android:layout_width="105dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="568dp"
+            android:clickable="true"
+            android:contentDescription="@string/add_review"
+            android:focusable="true"
+            android:onClick="exit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/back" />
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/reviewProgressLayout"
@@ -70,4 +85,5 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
