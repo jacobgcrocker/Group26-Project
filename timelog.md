@@ -18,4 +18,4 @@
 | 02/03/2024 |     |        |       |     |       | 6        | Added image functionality + changed layouts                                          |
 | 03/03/2024 |     |        |       |     |       | 9        | Faced issues with initial implementation so completely altered review implementation |
 | 04/03/2024 |     |        |       | 4   |       |          | Added inital search activity                                                         |
-| 04/03/2024 |     |        |       | 6   |       |          | Added search functionality + display search results                                  |
+| 05/03/2024 |     |        |       | 6   |       |          | Added search functionality + display search results                                  |
