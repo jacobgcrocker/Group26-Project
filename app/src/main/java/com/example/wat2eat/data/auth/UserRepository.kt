@@ -56,4 +56,7 @@ class UserRepository private constructor() {
     private fun setLoggedInUser(user: User) {
         this.user = user
     }
+    fun getLoggedInUser(): User? {
+        return this.user
+    }
 }
