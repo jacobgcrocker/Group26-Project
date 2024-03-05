@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
         val call = RetrofitClient.instance.searchRecipes(q = query)
         call.enqueue(object: Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
-                val responses = response.body()?.hits
+                val responses = response.body()?.results
                 Log.i("response:", responses.toString())
             }
             override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
