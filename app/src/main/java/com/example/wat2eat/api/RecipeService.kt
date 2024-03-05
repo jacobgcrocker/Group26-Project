@@ -15,13 +15,20 @@ interface RecipeService {
         @Query("query") q: String,
         @Query("apiKey") apiKey:String = BuildConfig.API_KEY,
         @Query("number") number: Int = 10,
-        @Query("instructionsRequired") instr: Boolean = true
+        @Query("instructionsRequired") instr: Boolean = true,
+        @Query("fillIngredients") fill: Boolean = true,
+        @Query("addRecipeInformation") info: Boolean = true,
+        @Query("addRecipeNutrition") nutrition: Boolean = true,
+        @Query("maxReadyTime") maxReadyTime: Int? = null,
+        @Query("minCalories") minCalories: Int? = null,
+        @Query("maxCalories") maxCalories: Int? = null
 
         ): Call<RecipeResponse>
 
     @GET("recipes/{id}/information")
     fun getRecipeInformation(
         @Path("id") id: Int,
-        @Query("apiKey") apiKey: String = BuildConfig.API_KEY
+        @Query("apiKey") apiKey: String = BuildConfig.API_KEY,
+        @Query("includeNutrition") includeNutrition: Boolean = true
     ): Call<DetailedRecipe>
 }

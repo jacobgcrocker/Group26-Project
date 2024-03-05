@@ -24,7 +24,7 @@ class RecipeAdapter : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(RecipeDiffCa
     class ViewHolder(private val binding: ItemRvSubCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(recipe: Recipe) {
-            binding.tvDishName.text = recipe.label
+            binding.tvDishName.text = recipe.title
             binding.tvDescription.text = "Description/Ratings goes here..."
             Picasso.get()
                 .load(recipe.image)
@@ -37,7 +37,7 @@ class RecipeAdapter : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(RecipeDiffCa
     private class RecipeDiffCallback : DiffUtil.ItemCallback<Recipe>() {
 
         override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
-            return oldItem.uri == newItem.uri
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {

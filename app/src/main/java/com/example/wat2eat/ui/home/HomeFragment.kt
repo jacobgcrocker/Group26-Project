@@ -8,15 +8,18 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import android.icu.util.Calendar
+import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wat2eat.api.RecipeResponse
 import com.example.wat2eat.api.RetrofitClient
 import com.example.wat2eat.databinding.FragmentHomeBinding
+import com.google.android.play.core.integrity.l
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.example.wat2eat.ui.home.SearchActivity
 
 class HomeFragment : Fragment() {
 
@@ -38,18 +41,17 @@ class HomeFragment : Fragment() {
 
         binding.greeting.text = getGreetingText()
 
-        binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query != null) {
-                    searchRecipes(query)
-                } else {
-                    Toast.makeText(context, "Please enter a search query", Toast.LENGTH_SHORT).show()
-                }
-                return true
+        binding.searchView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                openSearchActivity()
             }
-            override fun onQueryTextChange(newText: String?): Boolean {
-                //TODO
-                return true
+        })
+
+        binding.searchView.setOnQueryTextFocusChangeListener(object: View.OnFocusChangeListener {
+            override fun onFocusChange(view: View?, hasFocus: Boolean) {
+                if (hasFocus) {
+                    openSearchActivity()
+                }
             }
         })
 
@@ -82,17 +84,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun searchRecipes(query: String) {
-        val call = RetrofitClient.instance.searchRecipes(q = query)
-        call.enqueue(object: Callback<RecipeResponse> {
-            override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
-                val responses = response.body()?.results
-                Log.i("response:", responses.toString())
-            }
-            override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
-                print(t)
-            }
-        })
+    private fun openSearchActivity() {
+        binding.searchView.clearFocus()
+        startActivity(Intent(context, SearchActivity::class.java))
     }
 
     override fun onDestroyView() {
