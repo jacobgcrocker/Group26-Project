@@ -68,7 +68,9 @@ class RecipeFragment : Fragment() {
         for (ingredient in ingredients) {
             val checkBox = CheckBox(requireContext())
             checkBox.apply {
-                text = ingredient.name
+                text = buildString {
+                    append("${ingredient.name}: ${ingredient.amount} ${ingredient.unit}")
+                }
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
