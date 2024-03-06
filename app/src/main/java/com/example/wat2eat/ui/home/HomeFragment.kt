@@ -20,6 +20,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.wat2eat.ui.home.SearchActivity
+import com.example.wat2eat.ui.recipe.RecipeActivity
 
 class HomeFragment : Fragment() {
 
@@ -62,7 +63,16 @@ class HomeFragment : Fragment() {
         }
         categoryAdapter.submitList(homeViewModel.getMainCategories())
 
-        dummyRecipes = RecipeAdapter()
+        dummyRecipes = RecipeAdapter() {
+            val intent = Intent(context, RecipeActivity::class.java)
+            // TODO: replace with actual recipe data
+            val extras = Bundle().apply {
+                putString("EXTRA_USERNAME", "my_username")
+                putString("EXTRA_PASSWORD", "my_password")
+            }
+            intent.putExtras(extras)
+            startActivity(Intent(intent))
+        }
         binding.rvSubCategory.apply {
             adapter = dummyRecipes
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

@@ -27,6 +27,10 @@
         <activity
             android:name=".ui.home.SearchActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.recipe.RecipeActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

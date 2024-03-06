@@ -1,5 +1,6 @@
 package com.example.wat2eat.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wat2eat.R
@@ -14,6 +15,7 @@ import com.google.android.material.chip.Chip
 import android.widget.Toast
 import android.widget.ScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.wat2eat.ui.recipe.RecipeActivity
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
@@ -41,7 +43,16 @@ class SearchActivity : AppCompatActivity() {
         caloriesSlider = binding.caloriesSlider
 
         searchResults = binding.searchResults
-        recipes = RecipeAdapter()
+        recipes = RecipeAdapter() {
+            val intent = Intent(this@SearchActivity, RecipeActivity::class.java)
+            // TODO: replace with actual recipe id
+            val extras = Bundle().apply {
+                putString("EXTRA_USERNAME", "my_username")
+                putString("EXTRA_PASSWORD", "my_password")
+            }
+            intent.putExtras(extras)
+            startActivity(Intent(intent))
+        }
         binding.rvSearchResults.apply {
             adapter = recipes
             layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
