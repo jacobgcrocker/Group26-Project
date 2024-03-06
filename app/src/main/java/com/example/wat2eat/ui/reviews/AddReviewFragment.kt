@@ -56,6 +56,10 @@ class AddReviewFragment : Fragment() {
             return
         }
 
+        binding.cancelButton.setOnClickListener{
+            parentFragmentManager.popBackStack()
+            makeButtonsVisible()
+        }
         binding.reviewImage.setOnClickListener {
             addImage()
         }
@@ -87,7 +91,12 @@ class AddReviewFragment : Fragment() {
 
         viewModel.addReview(review)
 
+        binding.addReviewProgressLayout.visibility = View.GONE
+
         Toast.makeText(requireContext(), "Review submitted successfully!", Toast.LENGTH_SHORT).show()
+
+        parentFragmentManager.popBackStack()
+        makeButtonsVisible()
     }
 
     private fun saveImageLocally(imageUri: Uri?): String? {
@@ -104,6 +113,10 @@ class AddReviewFragment : Fragment() {
         }
 
         return file.absolutePath
+    }
+
+    private fun makeButtonsVisible() {
+        (activity as? ReviewActivity)?.showButtons()
     }
 
     override fun onDestroyView() {

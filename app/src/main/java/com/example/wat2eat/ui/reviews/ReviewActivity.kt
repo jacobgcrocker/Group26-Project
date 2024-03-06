@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,7 +53,14 @@ class ReviewActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        binding.addReviewButton.visibility = View.VISIBLE
+        binding.goBack.visibility = View.VISIBLE
+    }
+
     private fun showAddReviewFragment() {
+        hideButtons()
         val fragment = AddReviewFragment.newInstance(userId ?: "", username ?: "Anonymous")
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
@@ -60,8 +68,18 @@ class ReviewActivity : AppCompatActivity() {
             .commit()
     }
 
+    fun showButtons() {
+        binding.addReviewButton.visibility = View.VISIBLE
+        binding.goBack.visibility = View.VISIBLE
+    }
+
+    fun hideButtons() {
+        binding.addReviewButton.visibility = View.GONE
+        binding.goBack.visibility = View.GONE
+    }
+
     fun exit() {
-        finish()
+        supportFragmentManager.popBackStack()
     }
     companion object {
         fun newIntent(context: Context) = Intent(context, ReviewActivity::class.java)

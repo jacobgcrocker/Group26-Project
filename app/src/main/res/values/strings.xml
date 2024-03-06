@@ -23,4 +23,6 @@
     <string name="reviews">Reviews</string>
     <string name="image">image</string>
     <string name="back_button">back button</string>
+    <string name="add_review_">Add Review</string>
+    <string name="back_to_recipe">Back to Recipe</string>
 </resources>
