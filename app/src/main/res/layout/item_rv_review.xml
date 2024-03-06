@@ -9,16 +9,14 @@
 
         <TextView
             android:id="@+id/username"
-            android:layout_width="144dp"
-            android:layout_height="32dp"
+            android:layout_width="390dp"
+            android:layout_height="29dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="Username"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
