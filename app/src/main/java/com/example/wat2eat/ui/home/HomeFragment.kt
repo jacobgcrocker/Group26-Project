@@ -65,10 +65,8 @@ class HomeFragment : Fragment() {
 
         dummyRecipes = RecipeAdapter() {
             val intent = Intent(context, RecipeActivity::class.java)
-            // TODO: replace with actual recipe data
             val extras = Bundle().apply {
-                putString("EXTRA_USERNAME", "my_username")
-                putString("EXTRA_PASSWORD", "my_password")
+                putString("recipe_id", it.id.toString())
             }
             intent.putExtras(extras)
             startActivity(Intent(intent))
