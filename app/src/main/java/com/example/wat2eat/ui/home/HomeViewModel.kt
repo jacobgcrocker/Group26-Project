@@ -21,16 +21,16 @@ class HomeViewModel : ViewModel() {
 
     fun getDummyRecipes(): List<Recipe> {
         return listOf(
-            Recipe("1","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-            Recipe("2","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-            Recipe("3","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-            Recipe("4","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-            Recipe("5","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-            Recipe("6","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-            Recipe("7","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-            Recipe("8","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-            Recipe("9","Pancakes", "https://www.themealdb.com/images/media/meals/rwuyqx1511383174.jpg"),
-
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
+            Recipe(716342,"Chicken Suya", "https://spoonacular.com/recipeImages/716342-312x231.jpg", "jpg"),
         )
     }
 

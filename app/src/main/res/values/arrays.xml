@@ -1,0 +1,6 @@
+<resources>
+    <array name="calories_initial_range">
+        <item>200.0</item>
+        <item>500.0</item>
+    </array>
+</resources>
