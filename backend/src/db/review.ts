@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import { UserDataSchema } from './userData';
 
 const ReviewSchema = new mongoose.Schema({
-	userId: { type: UserDataSchema },
+	userId: { type: String },
 	recipeId: { type: String },
 	content: { type: String },
 	rating: { type: Number },
