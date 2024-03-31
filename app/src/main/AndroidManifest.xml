@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".Wat2Eat"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Wat2eat"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.reviews.ReviewActivity">
+        </activity>
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="true">
