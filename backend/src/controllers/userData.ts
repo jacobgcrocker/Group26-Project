@@ -91,7 +91,7 @@ export const getUserFavouriteRecipes = async (
 	res: express.Response
 ) => {
 	try {
-		const { userId } = req.params;
+		const { userId } = req.query;
 		const user = await UserData.findById(userId);
 		if (!user) {
 			res.status(404).json({ error: 'User not found' });
