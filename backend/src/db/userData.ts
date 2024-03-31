@@ -18,7 +18,7 @@ const userDataSchema = new mongoose.Schema({
     },
     displayName: {
         type: String,
-        required: true,
+        // required: true,
     },
     settings: {
         type: SettingsSchema,

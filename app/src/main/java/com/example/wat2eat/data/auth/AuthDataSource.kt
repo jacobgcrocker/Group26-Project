@@ -15,7 +15,9 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import retrofit2.Response
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -41,11 +43,16 @@ class AuthDataSource {
             return when (result) {
                 is Result.Success -> {
                     Log.d(TAG, "Firebase Auth user login successful")
-                    val user = auth.currentUser?.let { retrieveUser(it) }
-                    if (user != null) {
-                        Result.Success(user)
+                    if (auth.currentUser != null) {
+                        val response = retrieveUser(auth.currentUser!!)
+                        val user = response.body()
+                        if (response.code() == 200 && user != null) {
+                            return Result.Success(user)
+                        } else {
+                            Result.Error(IllegalArgumentException("Backend error occurred"))
+                        }
                     } else {
-                        Result.Error(IllegalStateException("Log in successful but user not found"))
+                        Result.Error(IllegalStateException("Log in successful but Firebase user not found"))
                     }
                 }
                 is Result.Error -> {
@@ -70,9 +77,14 @@ class AuthDataSource {
             return when (result) {
                 is Result.Success -> {
                     Log.d(TAG, "Firebase Auth user sign up successful")
-                    val user = auth.currentUser?.let { appendUser(it, username) }
-                    if (user != null) {
-                        Result.Success(user)
+                    if (auth.currentUser != null) {
+                        val response = appendUser(auth.currentUser!!, username)
+                        val user = response.body()
+                        if (response.code() == 200 && user != null) {
+                            return Result.Success(user)
+                        } else {
+                            Result.Error(IllegalArgumentException("Backend error occurred"))
+                        }
                     } else {
                         Result.Error(IllegalStateException("Sign up successful but user not found"))
                     }
@@ -91,33 +103,32 @@ class AuthDataSource {
         auth.signOut()
     }
 
-    private fun retrieveUser(firebaseUser: FirebaseUser): User? {
-        var response : User? = null
+    private fun retrieveUser(firebaseUser: FirebaseUser): Response<User?> {
+        var response : Response<User?>
         runBlocking {
             withContext(Dispatchers.IO) {
                 val call = RetrofitClient.userServiceInstance.retrieveUser(firebaseUser.uid)
-                response = call.execute().body()
+                response = call.execute()
             }
         }
         return response
     }
 
 
-    private fun appendUser(firebaseUser: FirebaseUser, username: String): User? {
+    private fun appendUser(firebaseUser: FirebaseUser, username: String): Response<User?> {
         val email: String = firebaseUser.email.orEmpty()
         val body = HashMap<String, String>();
         body["email"] = email
         body["userId"] = firebaseUser.uid
         body["displayName"] = username
-        var newUser : User? = null
+        var response : Response<User?>
         runBlocking {
             withContext(Dispatchers.IO) {
                 val call = RetrofitClient.userServiceInstance.appendUser(body)
-                newUser = call.execute().body()
-                Log.d(TAG, "User created in database $newUser")
+                response = call.execute()
             }
         }
-        return newUser
+        return response
     }
 
     // referenced https://stackoverflow.com/q/67473666

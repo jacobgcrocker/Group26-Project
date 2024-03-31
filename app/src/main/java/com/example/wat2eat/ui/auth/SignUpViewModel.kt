@@ -13,6 +13,7 @@ import com.example.wat2eat.data.auth.UserRepository
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 
 
 class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
@@ -45,11 +46,12 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
                         _signUpResult.value =
                             AuthResult(error = R.string.login_incorrect_credentials)
                     }
-
                     is FirebaseAuthUserCollisionException -> {
                         _signUpResult.value = AuthResult(error = R.string.sign_up_email_in_use)
                     }
-
+                    is IllegalArgumentException -> {
+                        _signUpResult.value = AuthResult(error = R.string.sign_up_backend_failed)
+                    }
                     else -> _signUpResult.value = AuthResult(error = R.string.login_failed)
                 }
             }
