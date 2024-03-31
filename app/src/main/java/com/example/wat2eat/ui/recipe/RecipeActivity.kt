@@ -34,7 +34,7 @@ class RecipeActivity : AppCompatActivity() {
     }
 
     private fun getRecipe(recipeId: Int) {
-        val call = RetrofitClient.instance.getRecipeInformation(recipeId)
+        val call = RetrofitClient.recipeServiceInstance.getRecipeInformation(recipeId)
         call.enqueue(object : Callback<DetailedRecipe> {
             override fun onResponse(
                 call: Call<DetailedRecipe>,

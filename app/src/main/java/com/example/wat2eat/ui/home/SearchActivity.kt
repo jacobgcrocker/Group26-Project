@@ -87,7 +87,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun searchRecipes(query: String, minutes: Int? = null, minCalories: Int? = null, maxCalories: Int? = null) {
-        val call = RetrofitClient.instance.searchRecipes(q = query, maxReadyTime = minutes, minCalories = minCalories, maxCalories = maxCalories)
+        val call = RetrofitClient.recipeServiceInstance.searchRecipes(q = query, maxReadyTime = minutes, minCalories = minCalories, maxCalories = maxCalories)
         call.enqueue(object: Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 val responses = response.body()?.results
