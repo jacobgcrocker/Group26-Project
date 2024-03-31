@@ -1,5 +1,6 @@
 package com.example.wat2eat.ui.recipe
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.example.wat2eat.databinding.FragmentRecipeBinding
 import com.example.wat2eat.models.DetailedRecipe
 import com.example.wat2eat.models.Ingredient
 import com.example.wat2eat.models.Step
+import com.example.wat2eat.ui.reviews.ReviewActivity
 import com.squareup.picasso.Picasso
 
 class RecipeFragment : Fragment() {
@@ -31,6 +33,10 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        binding.seeReviews.setOnClickListener {
+            val intent = Intent(context, ReviewActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
