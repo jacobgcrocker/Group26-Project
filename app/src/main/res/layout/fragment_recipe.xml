@@ -239,8 +239,19 @@
                     android:textColor="@color/black"
                     android:textSize="15sp" />
             </androidx.cardview.widget.CardView>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="20dp">
 
+        <Button
+            android:id="@+id/see_reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="See Reviews" />
+    </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
