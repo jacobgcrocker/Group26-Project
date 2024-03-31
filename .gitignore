@@ -1,2 +1,7 @@
 node_modules/
 .env
+.idea
+.gradle
+local.properties
+**/.DS_Store
+app/build/
