@@ -14,5 +14,5 @@ export default (router: express.Router) => {
 	router.patch('/userData', updateUserData);
 	router.delete('/userData/:email', deleteUserData);
 	router.patch('/userData/favourites', updateUserFavouriteRecipes);
-	router.get('/userData/favourites/', getUserFavouriteRecipes);
+	router.get('/userData/favourites', getUserFavouriteRecipes);
 };

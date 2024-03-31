@@ -19,7 +19,7 @@ export const getRecipeById = async (
 	res: express.Response
 ) => {
 	try {
-		const recipe = await Recipe.findById(req.params.recipeId);
+		const recipe = await Recipe.findOne({ id: req.query.recipeId });
 		res.status(200).json(recipe);
 	} catch (error) {
 		console.error(error);

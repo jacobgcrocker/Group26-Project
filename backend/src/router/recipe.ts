@@ -7,6 +7,6 @@ import {
 
 export default (router: express.Router) => {
 	router.post('/recipe', createRecipe);
-	router.get('/recipe/:recipeId', getRecipeById);
+	router.get('/recipe', getRecipeById);
 	router.get('/recipes', getRecipesByIds);
 };

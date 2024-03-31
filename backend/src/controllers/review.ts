@@ -20,8 +20,8 @@ export const getReviewsByRecipeID = async (
 	res: express.Response
 ) => {
 	try {
-		const { reviewId } = req.params;
-		const reviews = await Review.find({ recipeId: reviewId });
+		const { recipeId } = req.query;
+		const reviews = await Review.find({ recipeId });
 		res.json(reviews);
 	} catch (error) {
 		console.error(error);
