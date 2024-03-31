@@ -4,4 +4,3 @@ node_modules/
 .gradle
 local.properties
 **/.DS_Store
-app/build/

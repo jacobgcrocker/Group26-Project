@@ -10,7 +10,7 @@ import {
 
 export default (router: express.Router) => {
 	router.post('/userData', createUserData);
-	router.get('/userData/:email', getUserData);
+	router.get('/userData', getUserData);
 	router.patch('/userData', updateUserData);
 	router.delete('/userData/:email', deleteUserData);
 	router.patch('/userData/favourites', updateUserFavouriteRecipes);
