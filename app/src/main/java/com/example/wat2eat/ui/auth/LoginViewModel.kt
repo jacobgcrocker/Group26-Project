@@ -11,6 +11,7 @@ import com.example.wat2eat.models.Result
 import com.example.wat2eat.data.auth.UserRepository
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import kotlinx.coroutines.launch
+import java.lang.IllegalArgumentException
 
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
@@ -38,7 +39,12 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
                     is FirebaseAuthInvalidCredentialsException -> {
                         _loginResult.value = AuthResult(error = R.string.login_incorrect_credentials)
                     }
-                    else -> _loginResult.value = AuthResult(error = R.string.login_failed)
+                    is IllegalArgumentException -> {
+                        _loginResult.value = AuthResult(error = R.string.login_backend_failed)
+                    }
+                    else -> {
+                        _loginResult.value = AuthResult(error = R.string.login_failed)
+                    }
                 }
             }
         }

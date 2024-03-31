@@ -16,8 +16,10 @@
     <string name="invalid_re_password">Passwords do not match</string>
     <string name="login_incorrect_credentials">Incorrect email or password.</string>
     <string name="login_failed">"Login failed, unexpected error occurred.</string>
+    <string name="login_backend_failed">"Login failed, server error occurred.</string>
     <string name="sign_up_email_in_use">The email address is already in use.</string>
     <string name="sign_up_failed">"Sign up failed, unexpected error occurred.</string>
+    <string name="sign_up_backend_failed">"Sign up failed, server error occurred.</string>
 
     <!-- Recipe -->
     <!-- TODO: replace these with actual data -->

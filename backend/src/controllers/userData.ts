@@ -6,10 +6,8 @@ export const createUserData = async (
     res: express.Response
 ) => {
     try {
-        console.log(req.body);
         const { email, userId, displayName } = req.body;
         const userData = await UserData.create({ userId, email, displayName });
-        console.log("userData", userData);
         res.status(200).json(userData);
     } catch (error) {
         console.log("error", error);
@@ -22,10 +20,8 @@ export const getUserData = async (
     res: express.Response
 ) => {
     try {
-        const { uid } = req.params;
-        console.log(uid);
-        const userData = await UserData.findOne({ uid });
-        console.log(userData);
+        const { uid } = req.query;
+        const userData = await UserData.findOne({ userId: uid });
         res.status(200).json(userData);
     } catch (error) {
         res.status(400).json({ error });
