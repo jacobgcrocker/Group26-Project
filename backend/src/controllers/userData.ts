@@ -66,7 +66,7 @@ export const updateUserFavouriteRecipes = async (
 		const { userId, recipeId, favourite } = req.body;
 		// favourite = true to add to favourites, false to remove from favourites
 
-		const user = await UserData.findOne({ id: userId });
+		const user = await UserData.findById(userId);
 		if (!user) {
 			res.status(404).json({ error: 'User not found' });
 			return;
@@ -92,7 +92,7 @@ export const getUserFavouriteRecipes = async (
 ) => {
 	try {
 		const { userId } = req.params;
-		const user = await UserData.findOne({ id: userId });
+		const user = await UserData.findById(userId);
 		if (!user) {
 			res.status(404).json({ error: 'User not found' });
 			return;

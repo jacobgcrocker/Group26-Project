@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export const RecipeSchema = new mongoose.Schema({
-	id: { type: String },
+	id: { type: String, unique: true },
 	title: { type: String },
 	image: { type: String },
 	servings: { type: Number },

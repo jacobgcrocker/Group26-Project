@@ -8,7 +8,6 @@ const SettingsSchema = new mongoose.Schema({
 
 export const UserDataSchema = new mongoose.Schema({
 	// TODO: Or ID?
-	id: { type: String },
 	email: {
 		type: String,
 		required: true,
@@ -18,7 +17,7 @@ export const UserDataSchema = new mongoose.Schema({
 		type: SettingsSchema,
 	},
 	favourites: {
-    // an array of recipe ids
+		// an array of recipe ids
 		type: [String],
 	},
 });
