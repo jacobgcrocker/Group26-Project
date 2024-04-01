@@ -1,6 +1,6 @@
 import express from 'express';
 import { UserData } from '../db/userData';
-import { Recipe } from 'db/recipe';
+import { Recipe } from '../db/recipe';
 
 export const createUserData = async (
 	req: express.Request,

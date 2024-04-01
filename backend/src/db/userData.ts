@@ -6,7 +6,7 @@ const SettingsSchema = new mongoose.Schema({
 	// TODO: Add more settings
 });
 
-const userDataSchema = new mongoose.Schema({
+export const UserDataSchema = new mongoose.Schema({
 	userId: {
 		type: String,
 		required: true,
@@ -27,4 +27,4 @@ const userDataSchema = new mongoose.Schema({
 		type: [String],
 	},
 });
-export const UserData = mongoose.model('UserData', userDataSchema);
+export const UserData = mongoose.model('UserData', UserDataSchema);
