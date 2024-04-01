@@ -1,6 +1,62 @@
 <resources>
+    <string-array name="meal_types_array">
+        <item>Main Course</item>
+        <item>Side Dish</item>
+        <item>Dessert</item>
+        <item>Appetizer</item>
+        <item>Salad</item>
+        <item>Bread</item>
+        <item>Breakfast</item>
+        <item>Soup</item>
+        <item>Beverage</item>
+        <item>Sauce</item>
+        <item>Marinade</item>
+        <item>Fingerfood</item>
+        <item>Snack</item>
+        <item>Drink</item>
+    </string-array>
+
+    <array name="minutes_array">
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </array>
+
     <array name="calories_initial_range">
         <item>200.0</item>
         <item>500.0</item>
     </array>
+
+    <string-array name="cuisines_array">
+        <item>African</item>
+        <item>Asian</item>
+        <item>American</item>
+        <item>British</item>
+        <item>Cajun</item>
+        <item>Caribbean</item>
+        <item>Chinese</item>
+        <item>Eastern European</item>
+        <item>European</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Greek</item>
+        <item>Indian</item>
+        <item>Irish</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Jewish</item>
+        <item>Korean</item>
+        <item>Latin American</item>
+        <item>Mediterranean</item>
+        <item>Mexican</item>
+        <item>Middle Eastern</item>
+        <item>Nordic</item>
+        <item>Southern</item>
+        <item>Spanish</item>
+        <item>Thai</item>
+        <item>Vietnamese</item>
+    </string-array>
 </resources>

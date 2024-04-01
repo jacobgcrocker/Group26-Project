@@ -32,10 +32,20 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tv_description"
+            android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="Time"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:maxLines="3"
+            android:paddingStart="10dp"/>
+        
+        <TextView
+            android:id="@+id/tv_calories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Calories"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:maxLines="3"

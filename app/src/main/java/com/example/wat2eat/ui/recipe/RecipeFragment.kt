@@ -37,6 +37,8 @@ class RecipeFragment : Fragment() {
             val intent = Intent(context, ReviewActivity::class.java)
             startActivity(intent)
         }
+
+        binding.instructionsTextView.setLineSpacing(8.0f, 1.1f)
     }
 
     override fun onDestroyView() {
@@ -58,7 +60,7 @@ class RecipeFragment : Fragment() {
         // TODO: get calories
         binding.servings.text = buildString {
             append(recipe.servings)
-            append(" servings")
+            append(" serving(s)")
         }
 
         updateIngredients(recipe.extendedIngredients)
@@ -90,7 +92,7 @@ class RecipeFragment : Fragment() {
     private fun updateInstructions(steps: List<Step>) {
         val formattedInstructions = buildString {
             for ((index, step) in steps.withIndex()) {
-                append("${index + 1}. ${step.step}\n")
+                append("${index + 1}. ${step.step}\n\n")
             }
         }
         binding.instructionsTextView.text = formattedInstructions
