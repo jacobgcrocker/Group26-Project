@@ -1,11 +1,10 @@
-import mongoose from 'mongoose';
-import { UserDataSchema } from './userData';
+import mongoose from "mongoose";
 
 const ReviewSchema = new mongoose.Schema({
-	userId: { type: UserDataSchema },
-	recipeId: { type: String },
-	content: { type: String },
-	rating: { type: Number },
+  userId: { type: String, required: true },
+  recipeId: { type: String, required: true },
+  content: { type: String },
+  rating: { type: Number },
 });
 
-export const Review = mongoose.model('Review', ReviewSchema);
+export const Review = mongoose.model("Review", ReviewSchema);
