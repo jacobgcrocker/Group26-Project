@@ -8,6 +8,7 @@ import com.example.wat2eat.api.RetrofitClient
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 
 class ReviewViewModel : ViewModel() {
@@ -28,14 +29,12 @@ class ReviewViewModel : ViewModel() {
     fun fetchReviewsByRecipeId(recipeId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response: Response<List<Review>> = RetrofitClient.reviewServiceInstance.getReviewsByRecipeId(recipeId).execute()
-                if (response.isSuccessful) {
-                    _reviewList.postValue(response.body())
-                } else {
-                    println("Error: ${response.errorBody()?.string()}")
+                val reviews = RetrofitClient.reviewServiceInstance.getReviewsByRecipeId(recipeId)
+                withContext(Dispatchers.Main) {
+                    _reviewList.value = reviews
                 }
             } catch (e: Exception) {
-                println("Exception: $e")
+                println("Error fetching reviews: $e")
             }
         }
     }

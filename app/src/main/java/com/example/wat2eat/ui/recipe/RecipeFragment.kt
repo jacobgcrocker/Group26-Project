@@ -20,6 +20,7 @@ class RecipeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var recipeViewModel: RecipeViewModel
+    private var currentRecipeId: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +35,9 @@ class RecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
         binding.seeReviews.setOnClickListener {
-            val intent = Intent(context, ReviewActivity::class.java)
+            val intent = Intent(context, ReviewActivity::class.java).apply {
+                putExtra(ReviewActivity.EXTRA_RECIPE_ID, currentRecipeId)
+            }
             startActivity(intent)
         }
     }
@@ -45,6 +48,7 @@ class RecipeFragment : Fragment() {
     }
 
     fun updateRecipeDetails(recipe: DetailedRecipe) {
+        currentRecipeId = recipe.id
         Picasso.get()
             .load(recipe.image)
             .fit()

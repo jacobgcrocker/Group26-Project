@@ -43,7 +43,7 @@ class ReviewActivity : AppCompatActivity() {
 
         with(binding.reviewList) {
             layoutManager = LinearLayoutManager(this@ReviewActivity)
-            adapter = this@ReviewActivity.adapter // Set the already initialized adapter
+            adapter = this@ReviewActivity.adapter
         }
 
         viewModel.reviewList.observe(this) { reviews ->
@@ -52,6 +52,11 @@ class ReviewActivity : AppCompatActivity() {
 
         binding.addReviewButton.setOnClickListener {
             showAddReviewFragment()
+        }
+
+        val recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, -1)
+        if (recipeId != -1) {
+            viewModel.fetchReviewsByRecipeId(recipeId.toString())
         }
     }
 
@@ -66,7 +71,7 @@ class ReviewActivity : AppCompatActivity() {
         val fragment = AddReviewFragment.newInstance(userId ?: "", username ?: "Anonymous")
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
-            .addToBackStack(null) // Optional: Add transaction to back stack
+            .addToBackStack(null)
             .commit()
     }
 
@@ -84,6 +89,12 @@ class ReviewActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack()
     }
     companion object {
-        fun newIntent(context: Context) = Intent(context, ReviewActivity::class.java)
+        const val EXTRA_RECIPE_ID = "com.example.wat2eat.extra.RECIPE_ID"
+
+        fun newIntent(context: Context, recipeId: Int): Intent {
+            return Intent(context, ReviewActivity::class.java).apply {
+                putExtra(EXTRA_RECIPE_ID, recipeId)
+            }
+        }
     }
 }

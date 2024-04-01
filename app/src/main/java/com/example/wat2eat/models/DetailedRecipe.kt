@@ -1,6 +1,7 @@
 package com.example.wat2eat.models
 
 data class DetailedRecipe(
+    val id: Int,
     val title: String,
     val image: String,
     val servings: Int,
