@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wat2eat.R
 import com.example.wat2eat.Wat2Eat
+import com.example.wat2eat.data.auth.UserRepository
 import com.example.wat2eat.databinding.ActivityReviewBinding
 import com.example.wat2eat.databinding.ActivityReviewBinding.inflate
 import com.example.wat2eat.models.Review
@@ -21,9 +22,10 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 class ReviewActivity : AppCompatActivity() {
-
+    val userRepository = UserRepository.getInstance()
+    val user = userRepository.getLoggedInUser()
     private var userId = FirebaseAuth.getInstance().currentUser?.uid
-    private var username = "CookingLover12"
+    private var username = user?.username ?: "Anonymous"
     private lateinit var binding: ActivityReviewBinding
     private lateinit var viewModel: ReviewViewModel
     private lateinit var adapter: ReviewAdapter
