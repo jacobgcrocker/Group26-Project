@@ -13,8 +13,7 @@ class Preferences(
         if(pref.active){
             activePreferences.remove(pref)
         }
-        else {
-            activePreferences.add(pref)
+        else { activePreferences.add(pref)
         }
         pref.active = !pref.active
 
