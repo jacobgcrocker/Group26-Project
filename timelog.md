@@ -22,3 +22,4 @@
 | 06/02/2024 |     |        |       |     | 1     |          | Link recipe details page to other pages and display actual result from APIs          |
 | 31/03/2024 |     |        |       |     | 3     |          | Implement API endpoints for recipes and reviews                                      |
 | 31/03/2024 |     |        |       | 5   |       |          | Enhanced search feature, created new multiselect widget, refactored chip groups      |
+| 01/04/2024 |     |        |       | 1   |       |          | Added filter button to make navigating search feature easier                         |

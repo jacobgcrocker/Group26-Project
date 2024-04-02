@@ -22,6 +22,8 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var loading: android.widget.ProgressBar
 
+    private lateinit var filterButton: android.widget.ImageButton
+
     private lateinit var searchFilters: ScrollView
     private lateinit var searchBar: android.widget.SearchView
     private lateinit var mealTypeChipGroup: com.google.android.material.chip.ChipGroup
@@ -38,6 +40,8 @@ class SearchActivity : AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
 
         loading = binding.loading
+
+        filterButton = binding.filterButton
 
         searchFilters = binding.searchFilters
         searchBar = binding.searchBar
@@ -105,6 +109,11 @@ class SearchActivity : AppCompatActivity() {
                 return true
             }
         })
+
+        filterButton.setOnClickListener {
+            searchResults.visibility = android.view.View.GONE
+            searchFilters.visibility = android.view.View.VISIBLE
+        }
 
         setContentView(binding.root)
     }
