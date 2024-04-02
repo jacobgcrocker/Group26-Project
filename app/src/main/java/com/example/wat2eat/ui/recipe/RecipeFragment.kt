@@ -65,6 +65,7 @@ class RecipeFragment : Fragment() {
 
         updateIngredients(recipe.extendedIngredients)
         if (recipe.analyzedInstructions.isNotEmpty()) {
+            updateEquipment(recipe.analyzedInstructions[0].steps)
             updateInstructions(recipe.analyzedInstructions[0].steps)
         } else {
             binding.instructionsTextView.text = ""
@@ -86,6 +87,28 @@ class RecipeFragment : Fragment() {
                 textSize = 15f
             }
             binding.ingredientsContainer.addView(checkBox)
+        }
+    }
+
+    private fun updateEquipment(instructionSteps: List<Step>) {
+        val equipmentSet = mutableSetOf<String>()
+        instructionSteps.forEach { step ->
+            step.equipment.forEach { equipmentSet.add(it.name) }
+        }
+        binding.equipmentContainer.removeAllViews()
+        for (eq in equipmentSet) {
+            val checkBox = CheckBox(requireContext())
+            checkBox.apply {
+                text = buildString {
+                    append(eq)
+                }
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+                textSize = 15f
+            }
+            binding.equipmentContainer.addView(checkBox)
         }
     }
 
