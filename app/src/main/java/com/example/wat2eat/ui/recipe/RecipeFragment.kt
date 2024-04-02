@@ -32,10 +32,14 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        recipeViewModel = ViewModelProvider(this)[RecipeViewModel::class.java]
         binding.seeReviews.setOnClickListener {
             val intent = Intent(context, ReviewActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.recipeImageButtonBack.setOnClickListener {
+            requireActivity().finish()
         }
 
         binding.instructionsTextView.setLineSpacing(8.0f, 1.1f)
@@ -57,7 +61,7 @@ class RecipeFragment : Fragment() {
             append(recipe.readyInMinutes)
             append(" minutes")
         }
-        
+
         val caloriesPerServing = recipe.nutrition.nutrients.find { it.name == "Calories" }
         // calories is per serving so need to multiply by servings
         val calories = caloriesPerServing!!.amount.times(recipe.servings)
