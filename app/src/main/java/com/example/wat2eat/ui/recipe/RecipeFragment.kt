@@ -17,9 +17,15 @@ import com.example.wat2eat.models.Ingredient
 import com.example.wat2eat.models.Step
 import com.example.wat2eat.ui.reviews.ReviewActivity
 import com.squareup.picasso.Picasso
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+import android.content.ClipData
+import android.content.ClipboardManager
+import kotlin.math.roundToInt
+
 
 class RecipeFragment : Fragment() {
     private var _binding: FragmentRecipeBinding? = null
@@ -29,6 +35,9 @@ class RecipeFragment : Fragment() {
     private var isFavourite: Boolean = false
 
     private lateinit var recipeViewModel: RecipeViewModel
+
+    private var ingredientsText: String = ""
+    private var instructionsText: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +69,13 @@ class RecipeFragment : Fragment() {
         binding.recipeImageButtonFavourite.setOnClickListener {
             toggleFavouriteStatus()
         }
+
+        binding.copyIngredientsButton.setOnClickListener {
+            val clipboard = requireContext().getSystemService(ClipboardManager::class.java)
+            val clip = ClipData.newPlainText("Ingredients", ingredientsText)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(context, "Copied ingredients to clipboard", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {
@@ -81,7 +97,7 @@ class RecipeFragment : Fragment() {
 
         val caloriesPerServing = recipe.nutrition.nutrients.find { it.name == "Calories" }
         // calories is per serving so need to multiply by servings
-        val calories = caloriesPerServing!!.amount.times(recipe.servings)
+        val calories = caloriesPerServing!!.amount.times(recipe.servings).roundToInt()
         binding.calories.text = buildString {
             append(calories)
             append(" ${caloriesPerServing.unit}")
@@ -103,11 +119,14 @@ class RecipeFragment : Fragment() {
 
     private fun updateIngredients(ingredients: List<Ingredient>) {
         binding.ingredientsContainer.removeAllViews()
+
+        var formattedIngredients = ""
         for (ingredient in ingredients) {
             val checkBox = CheckBox(requireContext())
             checkBox.apply {
                 text = buildString {
                     append("${ingredient.name}: ${ingredient.amount} ${ingredient.unit}")
+                    formattedIngredients += "${ingredient.name}: ${ingredient.amount} ${ingredient.unit}\n"
                 }
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -116,6 +135,7 @@ class RecipeFragment : Fragment() {
                 textSize = 15f
             }
             binding.ingredientsContainer.addView(checkBox)
+            ingredientsText = formattedIngredients
         }
     }
 
@@ -148,6 +168,7 @@ class RecipeFragment : Fragment() {
             }
         }
         binding.instructionsTextView.text = formattedInstructions
+        instructionsText = formattedInstructions
     }
 
     private fun updateFavouriteStatus(favourite: Boolean) {
