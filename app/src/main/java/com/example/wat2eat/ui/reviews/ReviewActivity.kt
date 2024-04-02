@@ -7,17 +7,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.wat2eat.R
 import com.example.wat2eat.Wat2Eat
 import com.example.wat2eat.data.auth.UserRepository
 import com.example.wat2eat.databinding.ActivityReviewBinding
-import com.example.wat2eat.databinding.ActivityReviewBinding.inflate
-import com.example.wat2eat.models.Review
-import com.example.wat2eat.models.User
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -29,6 +24,8 @@ class ReviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReviewBinding
     private lateinit var viewModel: ReviewViewModel
     private lateinit var adapter: ReviewAdapter
+    private var recipeId: Int = -1
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +51,7 @@ class ReviewActivity : AppCompatActivity() {
             showAddReviewFragment()
         }
 
-        val recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, -1)
+        recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, -1)
         if (recipeId != -1) {
             viewModel.fetchReviewsByRecipeId(recipeId.toString())
         }
@@ -68,7 +65,8 @@ class ReviewActivity : AppCompatActivity() {
 
     private fun showAddReviewFragment() {
         hideButtons()
-        val fragment = AddReviewFragment.newInstance(userId ?: "", username ?: "Anonymous")
+        val fragment = AddReviewFragment.newInstance(userId ?: "",
+            username ?: "Anonymous", recipeId)
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
             .addToBackStack(null)

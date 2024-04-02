@@ -20,6 +20,7 @@ class ReviewViewModel : ViewModel() {
             add(newReview)
         }
         _reviewList.value = updatedList
+        postReview(newReview)
     }
 
     fun updateReviewList(updatedReviews: List<Review>) {
@@ -35,6 +36,25 @@ class ReviewViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 println("Error fetching reviews: $e")
+            }
+        }
+    }
+
+    fun postReview(newReview: Review) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.reviewServiceInstance.postReview(newReview)
+                if (response.isSuccessful) {
+                    fetchReviewsByRecipeId(newReview.recipeId.toString())
+                } else {
+                    withContext(Dispatchers.Main) {
+                        println("Failed to post review: ${response.errorBody()?.string()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    println("Exception posting review: $e")
+                }
             }
         }
     }
