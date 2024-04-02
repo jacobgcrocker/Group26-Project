@@ -1,14 +1,23 @@
 package com.example.wat2eat.data.auth
 
 import android.util.Log
+import com.example.wat2eat.api.RetrofitClient
 import com.example.wat2eat.models.Result
 import com.example.wat2eat.models.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import retrofit2.Response
 import java.lang.Exception
+import java.lang.IllegalArgumentException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
@@ -34,11 +43,16 @@ class AuthDataSource {
             return when (result) {
                 is Result.Success -> {
                     Log.d(TAG, "Firebase Auth user login successful")
-                    val user = auth.currentUser?.let { retrieveUser(it) }
-                    if (user != null) {
-                        Result.Success(user)
+                    if (auth.currentUser != null) {
+                        val response = retrieveUser(auth.currentUser!!)
+                        val user = response.body()
+                        if (response.code() == 200 && user != null) {
+                            return Result.Success(user)
+                        } else {
+                            Result.Error(IllegalArgumentException("Backend error occurred"))
+                        }
                     } else {
-                        Result.Error(IllegalStateException("Log in successful but user not found"))
+                        Result.Error(IllegalStateException("Log in successful but Firebase user not found"))
                     }
                 }
                 is Result.Error -> {
@@ -63,9 +77,14 @@ class AuthDataSource {
             return when (result) {
                 is Result.Success -> {
                     Log.d(TAG, "Firebase Auth user sign up successful")
-                    val user = auth.currentUser?.let { appendUser(it, username) }
-                    if (user != null) {
-                        Result.Success(user)
+                    if (auth.currentUser != null) {
+                        val response = appendUser(auth.currentUser!!, username)
+                        val user = response.body()
+                        if (response.code() == 200 && user != null) {
+                            return Result.Success(user)
+                        } else {
+                            Result.Error(IllegalArgumentException("Backend error occurred"))
+                        }
                     } else {
                         Result.Error(IllegalStateException("Sign up successful but user not found"))
                     }
@@ -80,24 +99,36 @@ class AuthDataSource {
         }
     }
 
-//    fun logout() {
-//        auth.signOut()
-//    }
+    fun logout() {
+        auth.signOut()
+    }
 
-    private fun retrieveUser(firebaseUser: FirebaseUser): User {
-        // TODO: change this to incorporate logic to retrieve User from database using user's UID,
-        //    this logic ideally shouldn't be in this class
-        val email: String = firebaseUser.email.orEmpty()
-        val displayName = firebaseUser.displayName.orEmpty()
-        return User(userId = firebaseUser.uid, username = displayName, email = email)
+    private fun retrieveUser(firebaseUser: FirebaseUser): Response<User?> {
+        var response : Response<User?>
+        runBlocking {
+            withContext(Dispatchers.IO) {
+                val call = RetrofitClient.userServiceInstance.retrieveUser(firebaseUser.uid)
+                response = call.execute()
+            }
+        }
+        return response
     }
 
 
-    private fun appendUser(firebaseUser: FirebaseUser, username: String): User {
-        // TODO: change this to incorporate logic to append User to database, this logic ideally
-        //     shouldn't be in this class
+    private fun appendUser(firebaseUser: FirebaseUser, username: String): Response<User?> {
         val email: String = firebaseUser.email.orEmpty()
-        return User(userId = firebaseUser.uid, username = username, email = email)
+        val body = HashMap<String, String>();
+        body["email"] = email
+        body["userId"] = firebaseUser.uid
+        body["displayName"] = username
+        var response : Response<User?>
+        runBlocking {
+            withContext(Dispatchers.IO) {
+                val call = RetrofitClient.userServiceInstance.appendUser(body)
+                response = call.execute()
+            }
+        }
+        return response
     }
 
     // referenced https://stackoverflow.com/q/67473666

@@ -21,8 +21,9 @@ interface RecipeService {
         @Query("addRecipeNutrition") nutrition: Boolean = true,
         @Query("maxReadyTime") maxReadyTime: Int? = null,
         @Query("minCalories") minCalories: Int? = null,
-        @Query("maxCalories") maxCalories: Int? = null
-
+        @Query("maxCalories") maxCalories: Int? = null,
+        @Query("type") type: String? = null,
+        @Query("cuisine") cuisine: String? = null
         ): Call<RecipeResponse>
 
     @GET("recipes/{id}/information")

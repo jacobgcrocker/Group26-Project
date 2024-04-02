@@ -13,12 +13,22 @@
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:iconifiedByDefault="false"
         android:queryHint="@string/search_hint_recipes"
         android:focusable="true"
         android:focusableInTouchMode="true">
         <requestFocus />
     </SearchView>
+
+    <ImageButton
+        android:id="@+id/filter_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/baseline_filter_alt_24"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/search_bar"
+        app:layout_constraintBottom_toBottomOf="@id/search_bar" />
     
     <ProgressBar
         android:id="@+id/loading"
@@ -54,6 +64,28 @@
             android:layout_height="match_parent" />
             
             <TextView
+                android:id="@+id/meal_type_filter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Meal Type"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"
+                android:id="@+id/meal_type_chip_group"
+                app:layout_constraintTop_toBottomOf="@+id/meal_type_filter"
+                app:singleSelection="false"
+            >
+            </com.google.android.material.chip.ChipGroup>
+            
+            
+            <TextView
                 android:id="@+id/minutes_filter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,50 +97,14 @@
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:singleSelection="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
                 android:id="@+id/minute_chip_group"
                 app:layout_constraintTop_toBottomOf="@+id/minutes_filter"
+                app:singleSelection="true"
             >
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:text="15 minutes"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/minute15"/>
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:text="30 minutes"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/minute30"/>
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:text="45 minutes"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/minute45"/>
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:text="60 minutes"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/minute60"/>
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:text="90 minutes"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/minute90"/>
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:text="120 minutes"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/minute120"/>
             </com.google.android.material.chip.ChipGroup>
             
             <TextView
@@ -128,21 +124,22 @@
                 app:values="@array/calories_initial_range"
                 app:labelBehavior="visible"/>
 
-            <!-- <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Meal Type"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="Cuisines"
+                android:text="Cuisine"
                 android:textColor="@color/black"
-                android:textSize="20sp" /> -->
+                android:textSize="20sp" />
+            <com.example.wat2eat.widgets.MultiSelectDialog
+                android:id="@+id/cuisine_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/frame"
+                android:hint="Select cuisine"
+                android:textSize="15sp"
+                android:padding="12dp"/>
         </LinearLayout>
         
     </ScrollView>
@@ -153,11 +150,13 @@
         android:layout_height="wrap_content"
         android:scrollbars="none"
         app:layout_constraintTop_toBottomOf="@id/search_bar"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginBottom="200dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="100dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_search_results"

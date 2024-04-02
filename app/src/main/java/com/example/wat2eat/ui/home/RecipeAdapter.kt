@@ -28,7 +28,9 @@ class RecipeAdapter(
 
         fun bind(recipe: Recipe) {
             binding.tvDishName.text = recipe.title
-            binding.tvDescription.text = "Description/Ratings goes here..."
+            // binding.tvTime.text = "${recipe.readyInMinutes} min"
+            // val calories = recipe.nutrition.nutrients[0]
+            // binding.tvCalories.text = "${calories.amount} ${calories.unit}"
             Picasso.get()
                 .load(recipe.image)
                 .fit()

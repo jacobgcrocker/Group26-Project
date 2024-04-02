@@ -35,11 +35,16 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var loading: android.widget.ProgressBar
 
+    private lateinit var filterButton: android.widget.ImageButton
+
     private lateinit var searchFilters: ScrollView
     private lateinit var searchBar: android.widget.SearchView
+    private lateinit var mealTypeChipGroup: com.google.android.material.chip.ChipGroup
     private lateinit var minuteChipGroup: com.google.android.material.chip.ChipGroup
     private lateinit var caloriesSlider: com.google.android.material.slider.RangeSlider
     private lateinit var healthButton: android.widget.Button
+    private lateinit var cuisineDialog: com.example.wat2eat.widgets.MultiSelectDialog
+
 
     private lateinit var searchResults: ScrollView
     private lateinit var recipes : RecipeAdapter
@@ -53,11 +58,15 @@ class SearchActivity : AppCompatActivity() {
 
         loading = binding.loading
 
+        filterButton = binding.filterButton
+
         searchFilters = binding.searchFilters
         searchBar = binding.searchBar
+        mealTypeChipGroup = binding.mealTypeChipGroup
         minuteChipGroup = binding.minuteChipGroup
         caloriesSlider = binding.caloriesSlider
         healthButton = binding.healthButton
+        cuisineDialog = binding.cuisineDialog
 
 
         searchResults = binding.searchResults
@@ -120,25 +129,46 @@ class SearchActivity : AppCompatActivity() {
             }
 
         }
-        // TODO: make separate function
+
+        for (mealType in resources.getStringArray(R.array.meal_types_array)) {
+            val chip = Chip(this)
+            chip.text = mealType
+            chip.isCheckable = true
+            chip.tag = mealType.lowercase()
+            mealTypeChipGroup.addView(chip)
+        }
+
+        for (minute in resources.getIntArray(R.array.minutes_array)) {
+            val chip = Chip(this)
+            chip.text = "$minute min"
+            chip.isCheckable = true
+            chip.tag = minute
+            minuteChipGroup.addView(chip)
+        }
+
+        cuisineDialog.setItems(resources.getStringArray(R.array.cuisines_array))
+
 
         searchBar.setOnQueryTextListener(object: android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
+                    val mealTypeChipIds = mealTypeChipGroup.checkedChipIds
+                    val mealTypes = mealTypeChipIds.map { mealTypeChipGroup.findViewById<Chip>(it).tag as String }.joinToString(",")
+
                     val minuteChipId = minuteChipGroup.checkedChipId
-                    val minuteChipText = minuteChipGroup.findViewById<Chip>(minuteChipId)?.text
-                    val minutesString = minuteChipText?.toString()?.split(" ")?.get(0)
-                    val minutes = minutesString?.toIntOrNull()
+                    val minutes = if (minuteChipId >= 0)  minuteChipGroup.findViewById<Chip>(minuteChipId).tag as? Int else null
 
                     val calories = caloriesSlider.values
                     val minCalories = calories[0].toInt()
                     val maxCalories = calories[1].toInt()
 
+                    val cuisines = cuisineDialog.getItems().joinToString(",")
+
                     binding.root.clearFocus()
                     searchFilters.visibility = android.view.View.GONE
                     searchResults.visibility = android.view.View.GONE
                     loading.visibility = android.view.View.VISIBLE
-                    searchRecipes(query, minutes, minCalories, maxCalories)
+                    searchRecipes(query, mealTypes, minutes, minCalories, maxCalories, cuisines)
                 }
                 return true
             }
@@ -147,11 +177,24 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
+        filterButton.setOnClickListener {
+            searchResults.visibility = android.view.View.GONE
+            searchFilters.visibility = android.view.View.VISIBLE
+        }
+
         setContentView(binding.root)
     }
 
-    private fun searchRecipes(query: String, minutes: Int? = null, minCalories: Int? = null, maxCalories: Int? = null) {
-        val call = RetrofitClient.instance.searchRecipes(q = query, maxReadyTime = minutes, minCalories = minCalories, maxCalories = maxCalories)
+    private fun searchRecipes(query: String, mealTypes: String? = null,
+            minutes: Int? = null, minCalories: Int? = null,
+            maxCalories: Int? = null, cuisine: String? = null) {
+        val call = RetrofitClient.recipeServiceInstance.searchRecipes(
+            q = query,
+            maxReadyTime = minutes,
+            minCalories = minCalories,
+            maxCalories = maxCalories,
+            type = mealTypes,
+            cuisine = cuisine)
         call.enqueue(object: Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 val responses = response.body()?.results
