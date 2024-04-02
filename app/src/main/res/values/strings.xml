@@ -29,6 +29,7 @@
     <string name="cooking_time">Cooking time</string>
     <string name="servings">Servings</string>
     <string name="calories">Calories</string>
+    <string name="content">Content</string>
     <string name="ingredients">Ingredients</string>
     <string name="equipment">Equipment</string>
     <string name="instructions">Instructions</string>
