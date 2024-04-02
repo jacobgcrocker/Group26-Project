@@ -9,4 +9,5 @@ data class DetailedRecipe(
     // the instructions field is a string with no formatting
     // use analyzedInstructions instead
     val analyzedInstructions: List<AnalyzedInstruction>,
+    val nutrition: Nutrition
 )

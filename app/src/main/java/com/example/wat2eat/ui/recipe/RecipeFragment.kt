@@ -57,7 +57,15 @@ class RecipeFragment : Fragment() {
             append(recipe.readyInMinutes)
             append(" minutes")
         }
-        // TODO: get calories
+        
+        val caloriesPerServing = recipe.nutrition.nutrients.find { it.name == "Calories" }
+        // calories is per serving so need to multiply by servings
+        val calories = caloriesPerServing!!.amount.times(recipe.servings)
+        binding.calories.text = buildString {
+            append(calories)
+            append(" ${caloriesPerServing.unit}")
+        }
+
         binding.servings.text = buildString {
             append(recipe.servings)
             append(" serving(s)")
