@@ -13,7 +13,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import com.example.wat2eat.databinding.FragmentAddReviewBinding
+import com.example.wat2eat.models.BasicReview
 import com.example.wat2eat.models.Review
+import com.example.wat2eat.models.ReviewWithDescription
 import java.io.File
 import java.io.FileOutputStream
 
@@ -86,10 +88,14 @@ class AddReviewFragment : Fragment() {
         val rating = binding.ratingBar.rating
 
         val reviewId = ((viewModel.reviewList.value?.size ?: (0 + 1))).toString()
-        val review = Review(reviewId, recipeId, userId, username ?: "",
-            description, image, rating)
+        val review = BasicReview(reviewId, recipeId, userId ?: "", username ?: "", image, rating)
+        val finalReview = if (description.isNotEmpty()) {
+            ReviewWithDescription(review, description)
+        } else {
+            review
+        }
 
-        viewModel.addReview(review)
+        viewModel.addReview(finalReview)
         binding.addReviewProgressLayout.visibility = View.GONE
 
         Toast.makeText(requireContext(), "Review submitted successfully!", Toast.LENGTH_SHORT).show()
