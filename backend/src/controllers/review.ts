@@ -6,6 +6,7 @@ export const createReview = async (
 	res: express.Response
 ) => {
 	try {
+		console.log(req.body)
 		const review = await Review.create(req.body);
 		// 200 by default
 		res.json(review);

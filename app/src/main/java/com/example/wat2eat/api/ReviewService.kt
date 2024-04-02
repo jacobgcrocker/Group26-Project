@@ -1,6 +1,7 @@
 package com.example.wat2eat.api
 
 import com.example.wat2eat.models.Review
+import com.example.wat2eat.models.StoreReview
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,5 +12,5 @@ interface ReviewService {
     @GET("/review")
     suspend fun getReviewsByRecipeId(@Query("recipeId") recipeId: String): List<Review>
     @POST("/review")
-    suspend fun postReview(@Body newReview: Review): Response<Review>
+    suspend fun postReview(@Body newReview: StoreReview): Response<StoreReview>
 }

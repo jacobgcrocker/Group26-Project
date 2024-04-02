@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.example.wat2eat.models.Review
 import com.example.wat2eat.api.RetrofitClient
 import androidx.lifecycle.viewModelScope
+import com.example.wat2eat.models.ReviewWithDescription
+import com.example.wat2eat.models.StoreReview
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,9 +43,10 @@ class ReviewViewModel : ViewModel() {
     }
 
     fun postReview(newReview: Review) {
+        val storeReview = convertReview(newReview)
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = RetrofitClient.reviewServiceInstance.postReview(newReview)
+                val response = RetrofitClient.reviewServiceInstance.postReview(storeReview)
                 if (response.isSuccessful) {
                     fetchReviewsByRecipeId(newReview.recipeId.toString())
                 } else {
@@ -57,5 +60,14 @@ class ReviewViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun convertReview(review: Review): StoreReview {
+        return StoreReview(
+            reviewId = review.reviewId,
+            userId = review.userId,
+            rating = review.rating,
+            content = if (review is ReviewWithDescription) review.getDetails() else null
+        )
     }
 }
