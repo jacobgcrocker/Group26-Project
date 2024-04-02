@@ -56,9 +56,7 @@ class ReviewActivity : AppCompatActivity() {
         }
 
         recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, -1)
-        if (recipeId != -1) {
-            viewModel.fetchReviewsByRecipeId(recipeId.toString())
-        }
+        viewModel.fetchReviewsByRecipeId(recipeId.toString())
     }
 
     override fun onBackPressed() {
