@@ -27,3 +27,6 @@
 | 31/03/2024 | 1   |        |       |     |       |          | Improving error checking and Toast messages for user authentication                  |
 | 01/04/2024 |     |        |       | 1   |       |          | Added filter button to make navigating search feature easier                         |
 | 01/04/2024 |     |        |       | 1   |       |          | Added copy ingredients and instructions buttons                                      |
+| 01/04/2024 |     |        |       |     | 1     |          | Display calories, cooking equipment + navigation from recipe details page            |
+| 01/04/2024 |     |        |       |     | 2     |          | Implement adding/removing recipes from favourite list and display the fav status     |
+
