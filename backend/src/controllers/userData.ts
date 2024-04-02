@@ -73,6 +73,7 @@ export const toggleUserFavouriteRecipe = async (
 			return;
 		}
 
+		// weird but whatever
 		if (favourite === 'true') {
 			user.favourites.push(recipeId);
 		} else {
@@ -100,12 +101,6 @@ export const isRecipeFavourite = async (
 		}
 
 		const isFavourite = user.favourites.includes(recipeId as string);
-		console.log({
-			userId,
-			recipeId,
-			isFavourite,
-		});
-
 		res.status(200).json(isFavourite);
 	} catch (error) {
 		console.error(error);
