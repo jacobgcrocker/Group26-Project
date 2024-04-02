@@ -51,6 +51,10 @@ class ReviewActivity : AppCompatActivity() {
             showAddReviewFragment()
         }
 
+        binding.goBack.setOnClickListener {
+            finish()
+        }
+
         recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, -1)
         if (recipeId != -1) {
             viewModel.fetchReviewsByRecipeId(recipeId.toString())
@@ -81,10 +85,6 @@ class ReviewActivity : AppCompatActivity() {
     fun hideButtons() {
         binding.addReviewButton.visibility = View.GONE
         binding.goBack.visibility = View.GONE
-    }
-
-    fun exit() {
-        supportFragmentManager.popBackStack()
     }
     companion object {
         const val EXTRA_RECIPE_ID = "com.example.wat2eat.extra.RECIPE_ID"
