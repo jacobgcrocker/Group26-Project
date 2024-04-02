@@ -23,3 +23,4 @@
 | 31/03/2024 |     |        |       |     | 3     |          | Implement API endpoints for recipes and reviews                                      |
 | 31/03/2024 |     |        |       | 5   |       |          | Enhanced search feature, created new multiselect widget, refactored chip groups      |
 | 01/04/2024 |     |        |       | 1   |       |          | Added filter button to make navigating search feature easier                         |
+| 01/04/2024 |     |        |       | 1   |       |          | Added copy ingredients and instructions buttons                                      |
