@@ -59,7 +59,7 @@ export const deleteUserData = async (
 	}
 };
 
-export const updateUserFavouriteRecipes = async (
+export const toggleUserFavouriteRecipe = async (
 	req: express.Request,
 	res: express.Response
 ) => {
@@ -73,14 +73,40 @@ export const updateUserFavouriteRecipes = async (
 			return;
 		}
 
-		if (favourite) {
+		if (favourite === 'true') {
 			user.favourites.push(recipeId);
 		} else {
 			user.favourites = user.favourites.filter((id) => id !== recipeId);
 		}
 
 		await user.save();
-		res.status(200).json(user);
+		res.status(200).json(favourite);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error });
+	}
+};
+
+export const isRecipeFavourite = async (
+	req: express.Request,
+	res: express.Response
+) => {
+	try {
+		const { userId, recipeId } = req.query;
+		const user = await UserData.findOne({ userId });
+		if (!user) {
+			res.status(404).json({ error: 'User not found' });
+			return;
+		}
+
+		const isFavourite = user.favourites.includes(recipeId as string);
+		console.log({
+			userId,
+			recipeId,
+			isFavourite,
+		});
+
+		res.status(200).json(isFavourite);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error });

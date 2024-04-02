@@ -6,18 +6,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.wat2eat.R
+import com.example.wat2eat.api.RetrofitClient
 import com.example.wat2eat.databinding.FragmentRecipeBinding
 import com.example.wat2eat.models.DetailedRecipe
 import com.example.wat2eat.models.Ingredient
 import com.example.wat2eat.models.Step
 import com.example.wat2eat.ui.reviews.ReviewActivity
 import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RecipeFragment : Fragment() {
     private var _binding: FragmentRecipeBinding? = null
     private val binding get() = _binding!!
+    private var userId: String = ""
+    private var recipeId: String = ""
+    private var isFavourite: Boolean = false
 
     private lateinit var recipeViewModel: RecipeViewModel
 
@@ -38,11 +47,19 @@ class RecipeFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.instructionsTextView.setLineSpacing(8.0f, 1.1f)
+
+        userId = requireArguments().getString("userId")!!
+        recipeId = requireArguments().getString("recipeId")!!
+
+        getFavouriteStatus()
+
         binding.recipeImageButtonBack.setOnClickListener {
             requireActivity().finish()
         }
-
-        binding.instructionsTextView.setLineSpacing(8.0f, 1.1f)
+        binding.recipeImageButtonFavourite.setOnClickListener {
+            toggleFavouriteStatus()
+        }
     }
 
     override fun onDestroyView() {
@@ -131,5 +148,63 @@ class RecipeFragment : Fragment() {
             }
         }
         binding.instructionsTextView.text = formattedInstructions
+    }
+
+    private fun updateFavouriteStatus(favourite: Boolean) {
+        if (favourite) {
+            binding.recipeImageButtonFavourite.setImageResource(R.drawable.ic_favorite_24)
+        } else {
+            binding.recipeImageButtonFavourite.setImageResource(R.drawable.ic_favorite_border_24)
+        }
+    }
+
+    private fun getFavouriteStatus() {
+        val call = RetrofitClient.userServiceInstance.isFavourite(userId, recipeId)
+        call.enqueue(object : Callback<Boolean> {
+            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                val res = response.body()
+                if (res == null) {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Error fetching favourite status!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    isFavourite = res
+                    updateFavouriteStatus(res)
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                print(t)
+            }
+        })
+    }
+
+    private fun toggleFavouriteStatus() {
+        val body = HashMap<String, String>()
+        body["userId"] = userId
+        body["recipeId"] = recipeId
+        body["favourite"] = (!isFavourite).toString()
+        val call = RetrofitClient.userServiceInstance.toggleFavourite(body)
+        call.enqueue(object : Callback<Boolean> {
+            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                val res = response.body()
+                if (res == null) {
+                    Toast.makeText(
+                        requireActivity(),
+                        "Error toggling favourite status!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    updateFavouriteStatus(res)
+                    isFavourite = res
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                print(t)
+            }
+        })
     }
 }
