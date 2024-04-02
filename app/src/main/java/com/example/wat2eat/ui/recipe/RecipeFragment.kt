@@ -17,12 +17,15 @@ import com.example.wat2eat.models.Ingredient
 import com.example.wat2eat.models.Step
 import com.example.wat2eat.ui.reviews.ReviewActivity
 import com.squareup.picasso.Picasso
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.widget.Toast
+import kotlin.math.roundToInt
+
 
 class RecipeFragment : Fragment() {
     private var _binding: FragmentRecipeBinding? = null
@@ -32,7 +35,7 @@ class RecipeFragment : Fragment() {
     private var isFavourite: Boolean = false
 
     private lateinit var recipeViewModel: RecipeViewModel
-    
+
     private var ingredientsText: String = ""
     private var instructionsText: String = ""
 
@@ -65,18 +68,13 @@ class RecipeFragment : Fragment() {
         }
         binding.recipeImageButtonFavourite.setOnClickListener {
             toggleFavouriteStatus()
+        }
+
         binding.copyIngredientsButton.setOnClickListener {
             val clipboard = requireContext().getSystemService(ClipboardManager::class.java)
             val clip = ClipData.newPlainText("Ingredients", ingredientsText)
             clipboard.setPrimaryClip(clip)
             Toast.makeText(context, "Copied ingredients to clipboard", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.copyInstructionsButton.setOnClickListener {
-            val clipboard = requireContext().getSystemService(ClipboardManager::class.java)
-            val clip = ClipData.newPlainText("Instructions", instructionsText)
-            clipboard.setPrimaryClip(clip)
-            Toast.makeText(context, "Copied instructions to clipboard", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -99,7 +97,7 @@ class RecipeFragment : Fragment() {
 
         val caloriesPerServing = recipe.nutrition.nutrients.find { it.name == "Calories" }
         // calories is per serving so need to multiply by servings
-        val calories = caloriesPerServing!!.amount.times(recipe.servings)
+        val calories = caloriesPerServing!!.amount.times(recipe.servings).roundToInt()
         binding.calories.text = buildString {
             append(calories)
             append(" ${caloriesPerServing.unit}")
