@@ -10,7 +10,7 @@ import retrofit2.http.POST
 import retrofit2.http.Body
 interface ReviewService {
     @GET("/review")
-    suspend fun getReviewsByRecipeId(@Query("recipeId") recipeId: String): List<Review>
+    suspend fun getReviewsByRecipeId(@Query("recipeId") recipeId: String): List<StoreReview>
     @POST("/review")
     suspend fun postReview(@Body newReview: StoreReview): Response<StoreReview>
 }

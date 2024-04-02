@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.example.wat2eat.models.Review
 import com.example.wat2eat.api.RetrofitClient
 import androidx.lifecycle.viewModelScope
+import com.example.wat2eat.models.BasicReview
 import com.example.wat2eat.models.ReviewWithDescription
 import com.example.wat2eat.models.StoreReview
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 
 class ReviewViewModel : ViewModel() {
     private val _reviewList = MutableLiveData<List<Review>>()
@@ -33,11 +33,16 @@ class ReviewViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val reviews = RetrofitClient.reviewServiceInstance.getReviewsByRecipeId(recipeId)
+                val convertedReviews = reviews.map { storeReview ->
+                    reconstructReview(storeReview)
+                }
                 withContext(Dispatchers.Main) {
-                    _reviewList.value = reviews
+                    _reviewList.value = convertedReviews
                 }
             } catch (e: Exception) {
-                println("Error fetching reviews: $e")
+                withContext(Dispatchers.Main) {
+                    println("Exception or failure fetching reviews: $e")
+                }
             }
         }
     }
@@ -65,9 +70,26 @@ class ReviewViewModel : ViewModel() {
     fun convertReview(review: Review): StoreReview {
         return StoreReview(
             reviewId = review.reviewId,
+            recipeId = review.recipeId,
+            username = review.username,
             userId = review.userId,
             rating = review.rating,
             content = if (review is ReviewWithDescription) review.getDetails() else null
         )
+    }
+
+    fun reconstructReview(storeReview: StoreReview): Review {
+        var review: Review = BasicReview(
+            reviewId = storeReview.reviewId,
+            recipeId = storeReview.recipeId,
+            userId = storeReview.userId,
+            username = storeReview.username,
+            image = null,
+            rating = storeReview.rating
+        )
+        storeReview.content?.let { description ->
+            review = ReviewWithDescription(review, description)
+        }
+        return review
     }
 }

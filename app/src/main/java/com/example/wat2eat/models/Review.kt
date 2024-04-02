@@ -1,20 +1,20 @@
 package com.example.wat2eat.models
 
 interface Review {
-    val reviewId: String
+    val reviewId: Int?
     val recipeId: Int?
-    val userId: String
-    val username: String
+    val userId: String?
+    val username: String?
     val image: String?
     val rating: Float
     fun getDetails(): String
 }
 
 class BasicReview(
-    override val reviewId: String = "",
+    override val reviewId: Int? = null,
     override val recipeId: Int? = null,
-    override val userId: String = "",
-    override val username: String = "",
+    override val userId: String? = "",
+    override val username: String? = "",
     override val image: String? = null,
     override val rating: Float
 ) : Review {

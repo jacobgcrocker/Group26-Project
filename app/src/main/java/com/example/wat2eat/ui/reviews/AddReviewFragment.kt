@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import com.example.wat2eat.databinding.FragmentAddReviewBinding
 import com.example.wat2eat.models.BasicReview
-import com.example.wat2eat.models.Review
 import com.example.wat2eat.models.ReviewWithDescription
 import java.io.File
 import java.io.FileOutputStream
@@ -87,7 +86,7 @@ class AddReviewFragment : Fragment() {
         val description = binding.reviewDescription.text.toString()
         val rating = binding.ratingBar.rating
 
-        val reviewId = ((viewModel.reviewList.value?.size ?: (0 + 1))).toString()
+        val reviewId = ((viewModel.reviewList.value?.size ?: (0 + 1))).toInt()
         val review = BasicReview(reviewId, recipeId, userId ?: "", username ?: "", image, rating)
         val finalReview = if (description.isNotEmpty()) {
             ReviewWithDescription(review, description)
