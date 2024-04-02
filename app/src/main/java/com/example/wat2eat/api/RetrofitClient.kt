@@ -24,4 +24,13 @@ object RetrofitClient {
 
         retrofit.create(UserService::class.java)
     }
+
+    val reviewServiceInstance: ReviewService by lazy {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BACKEND_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        retrofit.create(ReviewService::class.java)
+    }
 }
