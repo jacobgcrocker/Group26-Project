@@ -3,7 +3,6 @@ package com.example.wat2eat.ui.home
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.wat2eat.R
 import com.example.wat2eat.databinding.ActivitySearchBinding
 import android.util.Log
 import retrofit2.Call
@@ -14,8 +13,22 @@ import com.example.wat2eat.api.RetrofitClient
 import com.google.android.material.chip.Chip
 import android.widget.Toast
 import android.widget.ScrollView
+import androidx.activity.viewModels
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.wat2eat.data.preferences.samplePreferences
+import com.example.wat2eat.ui.prefs.PrefPopup
+import com.example.wat2eat.ui.prefs.PreferencesViewModel
+import com.example.wat2eat.ui.prefs.PrefsUiState
 import com.example.wat2eat.ui.recipe.RecipeActivity
+import kotlinx.coroutines.launch
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
@@ -26,10 +39,13 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchBar: android.widget.SearchView
     private lateinit var minuteChipGroup: com.google.android.material.chip.ChipGroup
     private lateinit var caloriesSlider: com.google.android.material.slider.RangeSlider
+    private lateinit var healthButton: android.widget.Button
 
     private lateinit var searchResults: ScrollView
     private lateinit var recipes : RecipeAdapter
+    private val prefViewModel by viewModels<PreferencesViewModel>()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,6 +57,8 @@ class SearchActivity : AppCompatActivity() {
         searchBar = binding.searchBar
         minuteChipGroup = binding.minuteChipGroup
         caloriesSlider = binding.caloriesSlider
+        healthButton = binding.healthButton
+
 
         searchResults = binding.searchResults
         recipes = RecipeAdapter() {
@@ -56,6 +74,52 @@ class SearchActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
         }
 
+        val prefViewModel: PreferencesViewModel by viewModels()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                prefViewModel.uiState.collect { state ->
+                    binding.prefsCompose.apply {
+                        setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                        setContent {
+                            val coroutineScope = rememberCoroutineScope()
+                            val visible: Boolean = state.isBottomSheetOpen
+
+                            val sheetState = rememberModalBottomSheetState(
+                                skipPartiallyExpanded = true,
+                                )
+                            val hideSheet: () -> Unit = {
+                                coroutineScope.launch {
+                                    sheetState.hide()
+                                    prefViewModel.toggleBottomSheet()
+                                    prefViewModel.updatePrefs()
+                                }
+                            }
+                            PrefPopup(
+                                visible = visible,
+                                state = state,
+                                sheetState = sheetState,
+                                onDismiss = hideSheet,
+                                scope = coroutineScope
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        healthButton.setOnClickListener {
+            Log.d("DEBUG", "CLICK DETECTED")
+            binding.prefsCompose.apply {
+                setContent {
+                    val scope = rememberCoroutineScope()
+                    LaunchedEffect(key1 = Unit) {
+                        scope.launch {
+                            prefViewModel.toggleBottomSheet()
+                        }
+                    }
+                }
+            }
+
+        }
         // TODO: make separate function
 
         searchBar.setOnQueryTextListener(object: android.widget.SearchView.OnQueryTextListener {
