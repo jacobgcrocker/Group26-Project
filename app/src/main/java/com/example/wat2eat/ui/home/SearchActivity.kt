@@ -24,10 +24,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wat2eat.R
-import com.example.wat2eat.data.preferences.samplePreferences
 import com.example.wat2eat.ui.prefs.PrefPopup
 import com.example.wat2eat.ui.prefs.PreferencesViewModel
-import com.example.wat2eat.ui.prefs.PrefsUiState
 import com.example.wat2eat.ui.recipe.RecipeActivity
 import kotlinx.coroutines.launch
 
@@ -166,7 +164,7 @@ class SearchActivity : AppCompatActivity() {
                     val cuisines = cuisineDialog.getItems().joinToString(",")
                     val diets  = ""
                     val intolerances = ""
-                    for(pref in prefViewModel.getPrefs()){
+                    for(pref in prefViewModel.getActivePrefs()){
                         if(pref.category == "diet") {
                             diets.plus(pref.name.plus(","))
                         } else if (pref.category == "intolerances") {

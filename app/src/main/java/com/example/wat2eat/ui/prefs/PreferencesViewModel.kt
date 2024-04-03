@@ -38,8 +38,14 @@ class PreferencesViewModel: ViewModel() {
         }
     }
 
-    fun getPrefs(): List<Preference> {
-        return uiState.value.prefs
+    fun getActivePrefs(): List<Preference> {
+        val list: List<Preference> = listOf()
+        for (pref in _uiState.value.prefs){
+            if(pref.active) {
+                list.plus(pref)
+            }
+        }
+        return list
     }
 
     fun toggleBottomSheet() {
