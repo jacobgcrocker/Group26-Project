@@ -78,6 +78,13 @@ class RecipeFragment : Fragment() {
             clipboard.setPrimaryClip(clip)
             Toast.makeText(context, "Copied ingredients to clipboard", Toast.LENGTH_SHORT).show()
         }
+
+        binding.copyInstructionsButton.setOnClickListener {
+            val clipboard = requireContext().getSystemService(ClipboardManager::class.java)
+            val clip = ClipData.newPlainText("Instructions", instructionsText)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(context, "Copied instructions to clipboard", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {
