@@ -20,7 +20,7 @@ class ReviewActivity : AppCompatActivity() {
     val userRepository = UserRepository.getInstance()
     val user = userRepository.getLoggedInUser()
     private var userId = FirebaseAuth.getInstance().currentUser?.uid
-    private var username = user?.username ?: "Anonymous"
+    private var username = user?.displayName ?: "Anonymous"
     private lateinit var binding: ActivityReviewBinding
     private lateinit var viewModel: ReviewViewModel
     private lateinit var adapter: ReviewAdapter
