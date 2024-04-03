@@ -46,7 +46,7 @@ class SearchActivity : AppCompatActivity() {
 
 
     private lateinit var searchResults: ScrollView
-    private lateinit var recipes : RecipeAdapter
+    private lateinit var recipes: RecipeAdapter
     private val prefViewModel by viewModels<PreferencesViewModel>()
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -79,7 +79,8 @@ class SearchActivity : AppCompatActivity() {
         }
         binding.rvSearchResults.apply {
             adapter = recipes
-            layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(this@SearchActivity, LinearLayoutManager.VERTICAL, false)
         }
 
         val prefViewModel: PreferencesViewModel by viewModels()
@@ -94,7 +95,7 @@ class SearchActivity : AppCompatActivity() {
 
                             val sheetState = rememberModalBottomSheetState(
                                 skipPartiallyExpanded = true,
-                                )
+                            )
                             val hideSheet: () -> Unit = {
                                 coroutineScope.launch {
                                     sheetState.hide()
@@ -148,25 +149,28 @@ class SearchActivity : AppCompatActivity() {
         cuisineDialog.setItems(resources.getStringArray(R.array.cuisines_array))
 
 
-        searchBar.setOnQueryTextListener(object: android.widget.SearchView.OnQueryTextListener {
+        searchBar.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (query != null) {
                     val mealTypeChipIds = mealTypeChipGroup.checkedChipIds
-                    val mealTypes = mealTypeChipIds.map { mealTypeChipGroup.findViewById<Chip>(it).tag as String }.joinToString(",")
+                    val mealTypes =
+                        mealTypeChipIds.map { mealTypeChipGroup.findViewById<Chip>(it).tag as String }
+                            .joinToString(",")
 
                     val minuteChipId = minuteChipGroup.checkedChipId
-                    val minutes = if (minuteChipId >= 0)  minuteChipGroup.findViewById<Chip>(minuteChipId).tag as? Int else null
+                    val minutes =
+                        if (minuteChipId >= 0) minuteChipGroup.findViewById<Chip>(minuteChipId).tag as? Int else null
 
                     val calories = caloriesSlider.values
                     val minCalories = calories[0].toInt()
                     val maxCalories = calories[1].toInt()
 
                     val cuisines = cuisineDialog.getItems().joinToString(",")
-                    val diets  = ""
+                    var diets = ""
                     val intolerances = ""
-                    for(pref in prefViewModel.getActivePrefs()){
-                        if(pref.category == "diet") {
-                            diets.plus(pref.name.plus(","))
+                    for (pref in prefViewModel.getActivePrefs()) {
+                        if (pref.category == "diet") {
+                            diets = diets.plus(pref.name.plus(","))
                         } else if (pref.category == "intolerances") {
                             intolerances.plus(pref.name.substringBefore("-Free").plus(","))
                         }
@@ -176,11 +180,14 @@ class SearchActivity : AppCompatActivity() {
                     searchFilters.visibility = android.view.View.GONE
                     searchResults.visibility = android.view.View.GONE
                     loading.visibility = android.view.View.VISIBLE
-                    searchRecipes(query, mealTypes, minutes, minCalories, maxCalories, cuisines,
-                        diets, intolerances)
+                    searchRecipes(
+                        query, mealTypes, minutes, minCalories, maxCalories, cuisines,
+                        diets, intolerances
+                    )
                 }
                 return true
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 return true
             }
@@ -194,34 +201,44 @@ class SearchActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    private fun searchRecipes(query: String, mealTypes: String? = null,
-            minutes: Int? = null, minCalories: Int? = null,
-            maxCalories: Int? = null, cuisine: String? = null,
-            diets: String? = null, intolerances: String? = null) {
+    private fun searchRecipes(
+        query: String, mealTypes: String? = null,
+        minutes: Int? = null, minCalories: Int? = null,
+        maxCalories: Int? = null, cuisine: String? = null,
+        diets: String? = null, intolerances: String? = null
+    ) {
 
         val call = RetrofitClient.recipeServiceInstance.searchRecipes(
             q = query,
             maxReadyTime = minutes,
-            minCalories = minCalories,
-            maxCalories = maxCalories,
+//            minCalories = minCalories,
+//            maxCalories = maxCalories,
             type = mealTypes,
             cuisine = cuisine,
             diet = diets,
-            intolerances = intolerances)
-        call.enqueue(object: Callback<RecipeResponse> {
-            override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
+            intolerances = intolerances
+        )
+        call.enqueue(object : Callback<RecipeResponse> {
+            override fun onResponse(
+                call: Call<RecipeResponse>,
+                response: Response<RecipeResponse>
+            ) {
                 val responses = response.body()?.results
-                Log.i("Recipes Response:", responses.toString())
                 loading.visibility = android.view.View.GONE
-                if (responses == null || responses.isEmpty()) {
+                if (responses == null) {
                     searchFilters.visibility = android.view.View.VISIBLE
-                    Toast.makeText(this@SearchActivity, "Error fetching recipes!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@SearchActivity,
+                        "Error fetching recipes!",
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     recipes.submitList(responses)
                     searchResults.visibility = android.view.View.VISIBLE
                     binding.rvSearchResults.clearFocus()
                 }
             }
+
             override fun onFailure(call: Call<RecipeResponse>, t: Throwable) {
                 print(t)
             }

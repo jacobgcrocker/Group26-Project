@@ -39,10 +39,10 @@ class PreferencesViewModel: ViewModel() {
     }
 
     fun getActivePrefs(): List<Preference> {
-        val list: List<Preference> = listOf()
+        val list: MutableList<Preference> = mutableListOf()
         for (pref in _uiState.value.prefs){
             if(pref.active) {
-                list.plus(pref)
+                list.add(pref)
             }
         }
         return list
