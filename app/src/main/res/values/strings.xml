@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Wat2eat</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_favourite">Favourite</string>
     <string name="title_account">Account</string>
 
     <!-- User Authentication -->
