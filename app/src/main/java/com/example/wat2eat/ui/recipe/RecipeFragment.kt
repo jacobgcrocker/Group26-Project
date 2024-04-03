@@ -53,7 +53,7 @@ class RecipeFragment : Fragment() {
         recipeViewModel = ViewModelProvider(this)[RecipeViewModel::class.java]
         binding.seeReviews.setOnClickListener {
             val intent = Intent(context, ReviewActivity::class.java).apply {
-                putExtra(ReviewActivity.EXTRA_RECIPE_ID, recipeId)
+                putExtra(ReviewActivity.EXTRA_RECIPE_ID, recipeId.toInt())
             }
             startActivity(intent)
         }
