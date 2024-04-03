@@ -2,6 +2,7 @@ package com.example.wat2eat.ui.prefs
 
 import androidx.lifecycle.ViewModel
 import com.example.wat2eat.data.preferences.samplePreferences
+import com.example.wat2eat.models.Preference
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,6 +36,10 @@ class PreferencesViewModel: ViewModel() {
             )
 
         }
+    }
+
+    fun getPrefs(): List<Preference> {
+        return uiState.value.prefs
     }
 
     fun toggleBottomSheet() {

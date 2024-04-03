@@ -23,7 +23,9 @@ interface RecipeService {
         @Query("minCalories") minCalories: Int? = null,
         @Query("maxCalories") maxCalories: Int? = null,
         @Query("type") type: String? = null,
-        @Query("cuisine") cuisine: String? = null
+        @Query("cuisine") cuisine: String? = null,
+        @Query("diet") diet: String? = null,
+        @Query("intolerances") intolerances: String? = null
         ): Call<RecipeResponse>
 
     @GET("recipes/{id}/information")

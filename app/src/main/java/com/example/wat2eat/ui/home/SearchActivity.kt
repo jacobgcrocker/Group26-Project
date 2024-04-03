@@ -23,6 +23,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.wat2eat.R
 import com.example.wat2eat.data.preferences.samplePreferences
 import com.example.wat2eat.ui.prefs.PrefPopup
 import com.example.wat2eat.ui.prefs.PreferencesViewModel
@@ -163,12 +164,22 @@ class SearchActivity : AppCompatActivity() {
                     val maxCalories = calories[1].toInt()
 
                     val cuisines = cuisineDialog.getItems().joinToString(",")
+                    val diets  = ""
+                    val intolerances = ""
+                    for(pref in prefViewModel.getPrefs()){
+                        if(pref.category == "diet") {
+                            diets.plus(pref.name.plus(","))
+                        } else if (pref.category == "intolerances") {
+                            intolerances.plus(pref.name.substringBefore("-Free").plus(","))
+                        }
+                    }
 
                     binding.root.clearFocus()
                     searchFilters.visibility = android.view.View.GONE
                     searchResults.visibility = android.view.View.GONE
                     loading.visibility = android.view.View.VISIBLE
-                    searchRecipes(query, mealTypes, minutes, minCalories, maxCalories, cuisines)
+                    searchRecipes(query, mealTypes, minutes, minCalories, maxCalories, cuisines,
+                        diets, intolerances)
                 }
                 return true
             }
@@ -187,14 +198,18 @@ class SearchActivity : AppCompatActivity() {
 
     private fun searchRecipes(query: String, mealTypes: String? = null,
             minutes: Int? = null, minCalories: Int? = null,
-            maxCalories: Int? = null, cuisine: String? = null) {
+            maxCalories: Int? = null, cuisine: String? = null,
+            diets: String? = null, intolerances: String? = null) {
+
         val call = RetrofitClient.recipeServiceInstance.searchRecipes(
             q = query,
             maxReadyTime = minutes,
             minCalories = minCalories,
             maxCalories = maxCalories,
             type = mealTypes,
-            cuisine = cuisine)
+            cuisine = cuisine,
+            diet = diets,
+            intolerances = intolerances)
         call.enqueue(object: Callback<RecipeResponse> {
             override fun onResponse(call: Call<RecipeResponse>, response: Response<RecipeResponse>) {
                 val responses = response.body()?.results
