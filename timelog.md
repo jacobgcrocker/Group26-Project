@@ -26,12 +26,14 @@
 | 31/03/2024 |     |        |       |     | 3     |          | Implement API endpoints for recipes and reviews                                      |
 | 31/03/2024 |     |        |       | 5   |       |          | Enhanced search feature, created new multiselect widget, refactored chip groups      |
 | 31/03/2024 | 0.5 |        |       |     |       |          | Cleaning up all git branches and repository                                          |
-| 31/03/2024 | 4   |        |       |     |       |          | Updating backend to be compatible with user authentication                           |
-| 31/03/2024 | 1   |        |       |     |       |          | Improving error checking and Toast messages for user authentication                  |
+| 31/03/2024 | 4   |        |       |     |       |          | Updating backend to be compatible with user authentication     |                    
+| 31/03/2024 | 1   |        |       |     |       |          | Improving error checking and Toast messages for user authentication |
+| 31/04/2024 |     |        |       |     |       |     4    | Integrating reviews with backend + merging reviews |
 | 01/04/2024 |     |        |       | 1   |       |          | Added filter button to make navigating search feature easier                         |
 | 01/04/2024 |     |        |       | 1   |       |          | Added copy ingredients and instructions buttons                                      |
 | 01/04/2024 |     |        |       |     | 1     |          | Display calories, cooking equipment + navigation from recipe details page            |
 | 01/04/2024 |     |        |       |     | 2     |          | Implement adding/removing recipes from favourite list and display the fav status     |
 | 01/04/2024 |     |        | 5     |     |       |          | Implement navigation from activityXML of search to composable preferences UI         |
 | 02/04/2024 |     |        | 6     |     |       |          | Fix userpreference data persistence in viewmodel and activity freeze on return bug   |
-
+| 01/04/2024 |     |        |       |     |       |      5    | Implement decorator pattern for reviews + adjust current backend code               |
+| 02/04/2024 |     |        |       |     |       |      5    | Debugging the backend for reviews                                                   |

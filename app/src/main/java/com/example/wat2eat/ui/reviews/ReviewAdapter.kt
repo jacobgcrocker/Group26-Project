@@ -12,7 +12,7 @@ class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
     inner class ReviewViewHolder(private val binding: ItemRvReviewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(review: Review) {
             binding.username.text = review.username
-            binding.reviewComment.text = review.description
+            binding.reviewComment.text = review.getDetails()
             binding.ratingBar.rating = review.rating!!
         }
     }

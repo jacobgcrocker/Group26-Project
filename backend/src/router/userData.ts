@@ -4,7 +4,8 @@ import {
 	getUserData,
 	updateUserData,
 	deleteUserData,
-	updateUserFavouriteRecipes,
+	toggleUserFavouriteRecipe,
+	isRecipeFavourite,
 	getUserFavouriteRecipes,
 } from '../controllers/userData';
 
@@ -13,6 +14,7 @@ export default (router: express.Router) => {
 	router.get('/userData', getUserData);
 	router.patch('/userData', updateUserData);
 	router.delete('/userData/:email', deleteUserData);
-	router.patch('/userData/favourites', updateUserFavouriteRecipes);
+	router.patch('/userData/favourites', toggleUserFavouriteRecipe);
+	router.get('/userData/favourite', isRecipeFavourite);
 	router.get('/userData/favourites', getUserFavouriteRecipes);
 };

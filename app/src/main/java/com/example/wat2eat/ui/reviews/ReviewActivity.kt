@@ -7,26 +7,25 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.wat2eat.R
 import com.example.wat2eat.Wat2Eat
+import com.example.wat2eat.data.auth.UserRepository
 import com.example.wat2eat.databinding.ActivityReviewBinding
-import com.example.wat2eat.databinding.ActivityReviewBinding.inflate
-import com.example.wat2eat.models.Review
-import com.example.wat2eat.models.User
 import com.google.firebase.auth.FirebaseAuth
 
 
 class ReviewActivity : AppCompatActivity() {
-
+    val userRepository = UserRepository.getInstance()
+    val user = userRepository.getLoggedInUser()
     private var userId = FirebaseAuth.getInstance().currentUser?.uid
-    private var username = "CookingLover12"
+    private var username = user?.displayName ?: "Anonymous"
     private lateinit var binding: ActivityReviewBinding
     private lateinit var viewModel: ReviewViewModel
     private lateinit var adapter: ReviewAdapter
+    private var recipeId: Int = -1
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +40,7 @@ class ReviewActivity : AppCompatActivity() {
 
         with(binding.reviewList) {
             layoutManager = LinearLayoutManager(this@ReviewActivity)
-            adapter = this@ReviewActivity.adapter // Set the already initialized adapter
+            adapter = this@ReviewActivity.adapter
         }
 
         viewModel.reviewList.observe(this) { reviews ->
@@ -51,6 +50,13 @@ class ReviewActivity : AppCompatActivity() {
         binding.addReviewButton.setOnClickListener {
             showAddReviewFragment()
         }
+
+        binding.goBack.setOnClickListener {
+            finish()
+        }
+
+        recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, -1)
+        viewModel.fetchReviewsByRecipeId(recipeId.toString())
     }
 
     override fun onBackPressed() {
@@ -61,10 +67,11 @@ class ReviewActivity : AppCompatActivity() {
 
     private fun showAddReviewFragment() {
         hideButtons()
-        val fragment = AddReviewFragment.newInstance(userId ?: "", username ?: "Anonymous")
+        val fragment = AddReviewFragment.newInstance(userId ?: "",
+            username ?: "Anonymous", recipeId)
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
-            .addToBackStack(null) // Optional: Add transaction to back stack
+            .addToBackStack(null)
             .commit()
     }
 
@@ -77,11 +84,13 @@ class ReviewActivity : AppCompatActivity() {
         binding.addReviewButton.visibility = View.GONE
         binding.goBack.visibility = View.GONE
     }
-
-    fun exit() {
-        supportFragmentManager.popBackStack()
-    }
     companion object {
-        fun newIntent(context: Context) = Intent(context, ReviewActivity::class.java)
+        const val EXTRA_RECIPE_ID = "com.example.wat2eat.extra.RECIPE_ID"
+
+        fun newIntent(context: Context, recipeId: Int): Intent {
+            return Intent(context, ReviewActivity::class.java).apply {
+                putExtra(EXTRA_RECIPE_ID, recipeId)
+            }
+        }
     }
 }
