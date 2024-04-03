@@ -1,11 +1,14 @@
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wat2eat.databinding.ItemRvReviewBinding
 import com.example.wat2eat.models.Review
 
-class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
+class ReviewAdapter(private val userId: String?,
+                    private val onDeleteClick: (Review) -> Unit)
+    : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
 
     private var reviewList: List<Review> = emptyList()
 
@@ -14,6 +17,15 @@ class ReviewAdapter : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
             binding.username.text = review.username
             binding.reviewComment.text = review.getDetails()
             binding.ratingBar.rating = review.rating!!
+
+            if (review.userId == userId) {
+                binding.deleteReviewButton.visibility = View.VISIBLE
+                binding.deleteReviewButton.setOnClickListener {
+                    onDeleteClick(review)
+                }
+            } else {
+                binding.deleteReviewButton.visibility = View.GONE
+            }
         }
     }
 

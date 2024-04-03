@@ -8,9 +8,14 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.POST
 import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.Path
+
 interface ReviewService {
     @GET("/review")
     suspend fun getReviewsByRecipeId(@Query("recipeId") recipeId: String): List<StoreReview>
     @POST("/review")
     suspend fun postReview(@Body newReview: StoreReview): Response<StoreReview>
+    @DELETE("/review/{reviewId}")
+    suspend fun deleteReview(@Path("reviewId") reviewId: Int?): Response<Unit>
 }

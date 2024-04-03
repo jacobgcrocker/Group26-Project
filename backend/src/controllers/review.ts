@@ -29,3 +29,17 @@ export const getReviewsByRecipeID = async (
 		res.status(500).json({ error });
 	}
 };
+
+export const deleteReview = async (
+	req: express.Request, 
+	res: express.Response
+) => {
+    try {
+        const { reviewId } = req.params;
+        await Review.findByIdAndDelete(reviewId);
+        res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error });
+    }
+};

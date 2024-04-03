@@ -36,7 +36,9 @@ class ReviewActivity : AppCompatActivity() {
         val viewModelFactory = (application as Wat2Eat).reviewViewModelFactory
         viewModel = ViewModelProvider(this, viewModelFactory).get(ReviewViewModel::class.java)
 
-        adapter = ReviewAdapter()
+        adapter = ReviewAdapter(userId) { review ->
+            viewModel.deleteReview(review)
+        }
 
         with(binding.reviewList) {
             layoutManager = LinearLayoutManager(this@ReviewActivity)

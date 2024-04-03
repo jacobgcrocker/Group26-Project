@@ -92,4 +92,25 @@ class ReviewViewModel : ViewModel() {
         }
         return review
     }
+
+    fun deleteReview(review: Review) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.reviewServiceInstance.deleteReview(review.reviewId)
+                if (response.isSuccessful) {
+                    withContext(Dispatchers.Main) {
+                        fetchReviewsByRecipeId(review.recipeId.toString())
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        println("Failed to delete review: ${response.errorBody()?.string()}")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    println("Exception deleting review: $e")
+                }
+            }
+        }
+    }
 }
