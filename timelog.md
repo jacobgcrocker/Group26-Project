@@ -37,4 +37,4 @@
 | 02/04/2024 |     |        | 6     |     |       |          | Fix userpreference data persistence in viewmodel and activity freeze on return bug   |
 | 01/04/2024 |     |        |       |     |       | 5        | Implement decorator pattern for reviews + adjust current backend code                |
 | 02/04/2024 |     |        |       |     |       | 5        | Debugging the backend for reviews                                                    |
-| 02/04/2024 |     |        | 4     |     |       |          | Debuging the preferences backend and functionality                                   |
+| 02/04/2024 |     |        | 4     |     | 3     |          | Debuging the preferences backend and functionality                                   |
