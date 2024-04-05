@@ -28,7 +28,7 @@ class RecipeAdapter(
 
         fun bind(recipe: Recipe) {
             binding.tvDishName.text = recipe.title
-            binding.tvDescription.text = "Description/Ratings goes here..."
+            binding.tvDescription.text = "⭐⭐⭐⭐⭐"
             Picasso.get()
                 .load(recipe.image)
                 .fit()
